@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import { UserContext } from "../context/userContext";
+import { UserContext } from "../context/UserContext";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 const normalizeRole = (v) => String(v || "").toLowerCase().trim().replace(/\u00A0/g, "");
