@@ -1,5 +1,5 @@
 // Alamat URL yang akan kita gunakan untuk setiap request
-export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "https://localhost:8000";
 
 //utils/apiPaths.js
 export const API_PATHS = {
