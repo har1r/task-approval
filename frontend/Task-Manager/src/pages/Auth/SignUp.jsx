@@ -8,7 +8,7 @@ import PreviewImage from "../../components/ui/ImagePreview";
 import axiosInstance from "../../utils/axiosInstance";
 import uploadImage from "../../utils/uploadImage";
 import { validateEmail } from "../../utils/helper";
-import { UserContext } from "../../context/userContext";
+import { UserContext } from "../../context/UserContext";
 import { API_PATHS } from "../../utils/apiPaths";
 
 // Mapping stage → role (sesuai backend)
