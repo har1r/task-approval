@@ -1,4 +1,3 @@
-// src/context/userContext.jsx
 import React, { createContext, useState, useEffect, useCallback, useMemo } from "react";
 import axiosInstance from "../utils/axiosInstance";
 import { API_PATHS } from "../utils/apiPaths";
@@ -112,64 +111,3 @@ const UserProvider = ({ children }) => {
 };
 
 export default UserProvider;
-
-
-// import React, { createContext, useState, useEffect, useCallback } from "react";
-// import axiosInstance from "../utils/axiosInstance";
-// import { API_PATHS } from "../utils/apiPaths";
-
-// export const UserContext = createContext();
-
-// const UserProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(true); // loading saat fetch awal
-
-//   // Fungsi untuk clear user
-//   const clearUser = useCallback(() => {
-//     setUser(null);
-//     localStorage.removeItem("token");
-//   }, []);
-
-//   // Fungsi untuk update user dan simpan token
-//   const updateUser = useCallback((userData) => {
-//     setUser(userData);
-//     if (userData.token) {
-//       localStorage.setItem("token", userData.token);
-//     }
-//   }, []);
-
-//   // Fetch user profile saat mount
-//   useEffect(() => {
-//     const fetchUser = async () => {
-//       const token = localStorage.getItem("token");
-//       if (!token) {
-//         setLoading(false);
-//         return;
-//       }
-
-//       try {
-//         // pastikan axiosInstance attach token di header
-//         const response = await axiosInstance.get(API_PATHS.AUTH.GET_USER_PROFILE);
-//         setUser(response.data);
-//       } catch (error) {
-//         // hanya logout jika 401 Unauthorized
-//         if (error.response?.status === 401) {
-//           clearUser();
-//         }
-//         console.error("Failed to fetch user profile:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchUser();
-//   }, [clearUser]);
-
-//   return (
-//     <UserContext.Provider value={{ user, loading, updateUser, clearUser }}>
-//       {children}
-//     </UserContext.Provider>
-//   );
-// };
-
-// export default UserProvider;
