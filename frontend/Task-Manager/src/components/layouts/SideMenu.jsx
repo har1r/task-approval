@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useCallback, Fragment } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { UserContext } from "../../context/userContext";
+import { UserContext } from "../../context/UserContexts";
 import { ADMIN_MENU, USER_MENU } from "../../utils/data";
 
 // Daftar path yang dibatasi + siapa saja yang boleh mengaksesnya
