@@ -83,7 +83,7 @@ const AuthLayout = ({ children, title = "Task Manager", subtitle = "" }) => {
 
                 {/* Tagline */}
                 <p className="mt-2 text-sm text-indigo-100/90 text-center">
-                  Sistem Pelayanan Efektif Terpantau dan Rapi
+                  Sistem Informasi Pelayanan Efektif Terpantau dan Rapi
                 </p>
 
                 {/* Badge kecil opsional */}

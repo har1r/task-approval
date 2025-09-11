@@ -46,7 +46,7 @@ const Navbar = () => {
               SIPETRA
             </div>
             <div className="text-[11px] font-medium text-slate-500/90">
-              Sistem Pelayanan Efektif Terpantau & Rapi
+              Sistem Infromasi Pelayanan Efektif Terpantau & Rapi
             </div>
           </div>
         </div>
