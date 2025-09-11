@@ -15,7 +15,7 @@ import ApprovalModal from "../../components/modals/ApprovalModal";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { toast } from "react-toastify";
-import { UserContext } from "../../context/userContext";
+import { UserContext } from "../../context/UserContexts";
 
 /* ---------- Skeleton lokal (khusus tabel) ---------- */
 const TableSkeleton = ({ rows = 6 }) => (
