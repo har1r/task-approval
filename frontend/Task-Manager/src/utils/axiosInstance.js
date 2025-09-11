@@ -3,7 +3,7 @@ import axios from "axios";
 import { BASE_URL } from "./apiPaths";
 
 const axiosInstance = axios.create({
-  baseURL: BASE_URL,        // pastikan: "http://localhost:8000"
+  baseURL: BASE_URL,        // pastikan: "https://localhost:8000"
   timeout: 10000,
   headers: {
     Accept: "application/json",
