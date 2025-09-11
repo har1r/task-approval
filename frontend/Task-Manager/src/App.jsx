@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import Notification from "./components/ui/Notification";
-import UserProvider, { UserContext } from "./context/UserContext";
+import UserProvider, { UserContext } from "./context/UserContexts";
 
 // ==== Lazy load pages (route-level code splitting) ====
 // Memecah (split) file kode React jadi bagian-bagian kecil dan baru dimuat (load) ketika dibutuhkan.

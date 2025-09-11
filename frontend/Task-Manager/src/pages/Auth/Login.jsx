@@ -7,7 +7,7 @@ import Input from "../../components/inputs/Input";
 import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
-import { UserContext } from "../../context/UserContext";
+import { UserContext } from "../../context/UserContexts";
 
 const Login = () => {
   const navigate = useNavigate();

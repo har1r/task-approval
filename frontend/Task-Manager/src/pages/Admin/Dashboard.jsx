@@ -26,8 +26,8 @@ const TaskListTable = React.lazy(() =>
 ); // CHANGED
 
 import Pagination from "../../components/ui/Pagination"; // NEW
-import { UserContext } from "../../context/UserContext";
-import { UseUserAuth } from "../../hooks/useUserAuth";
+import { UserContext } from "../../context/UserContexts";
+import { UseUserAuth } from "../../hooks/UseUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
 
