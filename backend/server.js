@@ -45,7 +45,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middleware fallback jika route tidak ditemukan
 app.use((req, res, next) => {
-  res.status(404).json({ message: "Route tidak ditemukan." });
+  res.status(404).json({ message: "Route tidak ditemu" });
 });
 
 // Middleware global error handler (debug-friendly)
