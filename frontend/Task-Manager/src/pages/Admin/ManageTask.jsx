@@ -6,6 +6,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { toast } from "react-toastify";
+
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import TaskFilter from "../../components/filters/TaskFilter";
 const TaskTable = React.lazy(() => import("../../components/tabels/TaskTable"));
@@ -13,35 +15,36 @@ import Pagination from "../../components/ui/Pagination";
 import ApprovalModal from "../../components/modals/ApprovalModal";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
-import { toast } from "react-toastify";
+
+import TableSkeleton from "../../components/Skeletons/TableSkeleton";
 
 /* ---------- Skeleton lokal (khusus tabel) ---------- */
-const TableSkeleton = ({ rows = 6 }) => (
-  <div className="overflow-x-auto">
-    <table className="min-w-full text-sm">
-      <thead className="sticky top-0 bg-slate-100 text-slate-800">
-        <tr>
-          {Array.from({ length: 9 }).map((_, i) => (
-            <th key={i} className="border-b px-3 py-2 text-left">
-              <div className="h-3 w-24 rounded bg-slate-200" />
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
-        {Array.from({ length: rows }).map((_, r) => (
-          <tr key={r} className="[&>td]:border-b">
-            {Array.from({ length: 9 }).map((__, c) => (
-              <td key={c} className="px-3 py-2">
-                <div className="h-3 w-28 rounded bg-slate-200 animate-pulse" />
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-);
+// const TableSkeleton = ({ rows = 6 }) => (
+//   <div className="overflow-x-auto">
+//     <table className="min-w-full text-sm">
+//       <thead className="sticky top-0 bg-slate-100 text-slate-800">
+//         <tr>
+//           {Array.from({ length: 9 }).map((_, i) => (
+//             <th key={i} className="border-b px-3 py-2 text-left">
+//               <div className="h-3 w-24 rounded bg-slate-200" />
+//             </th>
+//           ))}
+//         </tr>
+//       </thead>
+//       <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
+//         {Array.from({ length: rows }).map((_, r) => (
+//           <tr key={r} className="[&>td]:border-b">
+//             {Array.from({ length: 9 }).map((__, c) => (
+//               <td key={c} className="px-3 py-2">
+//                 <div className="h-3 w-28 rounded bg-slate-200 animate-pulse" />
+//               </td>
+//             ))}
+//           </tr>
+//         ))}
+//       </tbody>
+//     </table>
+//   </div>
+// );
 /* --------------------------------------------------- */
 
 const ManageTasks = () => {
