@@ -268,7 +268,7 @@ const ManageTasks = () => {
 
         {/* Tabel */}
         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-          <Suspense fallback={<TableSkeleton />}>
+          <Suspense fallback={<TableSkeleton number={10}/>}>
             {tasks.length > 0 ? (
               <>
                 <TaskTable
