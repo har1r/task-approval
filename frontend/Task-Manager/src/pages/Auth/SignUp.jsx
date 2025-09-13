@@ -198,11 +198,11 @@ const SignUp = () => {
           {/* Pilih stage hanya jika TIDAK pakai token admin */}
           {!adminInviteToken && (
             <div className="mb-4">
-              <label htmlFor={stageId} className="text-sm text-slate-00 block mb-1">
+              <label htmlFor={selectedStage} className="text-sm text-slate-00 block mb-1">
                 Tanggung Jawab Tahapan
               </label>
               <select
-                id={stageId}
+                id={selectedStage}
                 className="input-box w-full bg-white outline-none border border-gray-300 rounded-md p-2"
                 value={selectedStage}
                 onChange={(e) => setSelectedStage(e.target.value)}
