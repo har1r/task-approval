@@ -38,10 +38,10 @@ const Input = forwardRef(function Input(
 ) {
   const reactId = useId();
   const inputId = id || `${name || "field"}-${reactId}`;
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false); //1
 
-  const isPassword = type === "password";
-  const inputType = isPassword ? (show ? "text" : "password") : type;
+  const isPassword = type === "password"; //2
+  const inputType = isPassword ? (show ? "text" : "password") : type; //3
 
   const baseWrap =
     "relative flex items-center rounded-lg border bg-white transition-colors " +

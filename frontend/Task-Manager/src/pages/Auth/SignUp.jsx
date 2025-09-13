@@ -1,6 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useId, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 import AuthLayout from "../../components/layouts/AuthLayout";
 import Input from "../../components/inputs/Input";
@@ -24,9 +26,14 @@ const SignUp = () => {
   const navigate = useNavigate();
   const { updateUser } = useContext(UserContext);
 
+  const nameId = useId();
+  const emailId = useId();
+  const passId = useId();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPass, setShowPass] = useState(false);
   const [adminInviteToken, setAdminInviteToken] = useState("");
   const [selectedStage, setSelectedStage] = useState("");
   const [profilePic, setProfilePic] = useState(null);
@@ -43,12 +50,12 @@ const SignUp = () => {
       selectedStage: selectedStage.trim(),
     };
 
-    if (!safe.name || !safe.email || !safe.password) {
-      toast.error("Semua field wajib diisi!");
-      return;
-    }
     if (!validateEmail(safe.email)) {
       toast.error("Format email tidak valid.");
+      return;
+    }
+    if (!safe.name || !safe.email || !safe.password) {
+      toast.error("Semua data wajib diisi!");
       return;
     }
 
@@ -59,7 +66,7 @@ const SignUp = () => {
     } else if (safe.selectedStage) {
       role = stageToRoleMap[safe.selectedStage] || "";
     } else {
-      toast.error("Pilih stage atau masukkan token admin.");
+      toast.error("Pilih tahapan atau masukkan token admin.");
       return;
     }
 
@@ -90,10 +97,14 @@ const SignUp = () => {
       toast.success("Pendaftaran berhasil!");
 
       const isAdmin = String(userRole || "").toLowerCase() === "admin";
-      navigate(isAdmin ? "/admin/dashboard" : "/user/dashboard", { replace: true });
+      navigate(isAdmin ? "/admin/dashboard" : "/user/dashboard", {
+        replace: true,
+      });
     } catch (error) {
       const errMsg =
-        error?.response?.data?.message || error?.message || "Terjadi kesalahan. Coba lagi.";
+        error?.response?.data?.message ||
+        error?.message ||
+        "Terjadi kesalahan. Coba lagi.";
       toast.error(errMsg);
     } finally {
       setSubmitting(false);
@@ -103,21 +114,28 @@ const SignUp = () => {
   return (
     <AuthLayout>
       <div className="w-full max-w-xl mx-auto flex flex-col justify-center h-full px-4 py-6">
-        <h3 className="text-xl sm:text-2xl font-semibold text-black mb-2">Buat Akun Anda</h3>
-        <p className="text-sm text-slate-700 mb-6">Silakan isi data untuk mendaftar</p>
+        <h3 className="text-xl sm:text-2xl font-semibold text-black mb-2">
+          Buat Akun Anda
+        </h3>
+        <p className="text-sm text-slate-700 mb-6">
+          Silakan isi data untuk mendaftar
+        </p>
 
-        <form onSubmit={handleSignUp}>
+        <form onSubmit={handleSignUp} aria-label="Form Signup">
           {/* Preview foto profil */}
           <PreviewImage image={profilePic} setImage={setProfilePic} />
 
           {/* Input fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <Input
+              id={nameId}
+              name="name"
+              label="Name"
+              type="text"
+              placeholder="Masukkan nama lengkap"
+              autoComplete="name"
               value={name}
               onChange={setName}
-              label="Name"
-              placeholder="Masukkan nama lengkap"
-              type="text"
               required
             />
             <Input
@@ -128,14 +146,47 @@ const SignUp = () => {
               type="email"
               required
             />
-            <Input
+            <div>
+              <label
+                htmlFor={passId}
+                className="mb-1 block text-sm font-medium text-slate-800"
+              >
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id={passId}
+                  name="password"
+                  type={showPass ? "text" : "password"}
+                  placeholder="Masukkan password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPass((s) => !s)}
+                  className="absolute inset-y-0 right-0 m-1 rounded-md px-3 text-xs font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  aria-pressed={showPass}
+                  aria-controls={passId}
+                  title={
+                    showPass ? "Sembunyikan password" : "Tampilkan password"
+                  }
+                >
+                  {showPass ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
+            {/* <Input
               value={password}
               onChange={setPassword}
               label="Password"
               placeholder="Masukkan password"
               type="password"
               required
-            />
+            /> */}
             <Input
               value={adminInviteToken}
               onChange={setAdminInviteToken}
@@ -148,7 +199,9 @@ const SignUp = () => {
           {/* Pilih stage hanya jika TIDAK pakai token admin */}
           {!adminInviteToken && (
             <div className="mb-4">
-              <label className="text-sm text-slate-900 block mb-1">Tanggung Jawab Stage</label>
+              <label className="text-sm text-slate-900 block mb-1">
+                Tanggung Jawab Stage
+              </label>
               <select
                 className="input-box w-full bg-white outline-none border border-gray-300 rounded-md p-2"
                 value={selectedStage}
@@ -172,9 +225,25 @@ const SignUp = () => {
           >
             {submitting ? (
               <span className="inline-flex items-center justify-center gap-2">
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v3A5 5 0 007 12H4z" />
+                <svg
+                  className="h-4 w-4 animate-spin"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v3A5 5 0 007 12H4z"
+                  />
                 </svg>
                 Memproses…
               </span>
@@ -185,7 +254,10 @@ const SignUp = () => {
 
           <p className="text-sm text-slate-800 mt-4 text-center">
             Sudah punya akun?{" "}
-            <Link to="/login" className="text-indigo-600 hover:text-indigo-700 font-medium underline">
+            <Link
+              to="/login"
+              className="text-indigo-600 hover:text-indigo-700 font-medium underline"
+            >
               Masuk di sini
             </Link>
           </p>

@@ -1,13 +1,15 @@
 import React, { useContext, useState, useId } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 import AuthLayout from "../../components/layouts/AuthLayout";
 import Input from "../../components/inputs/Input";
 import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstance";
-import { API_PATHS } from "../../utils/apiPaths";
 import { UserContext } from "../../context/UserContexts";
+import { API_PATHS } from "../../utils/apiPaths";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -110,7 +112,7 @@ const Login = () => {
                 aria-controls={passId}
                 title={showPass ? "Sembunyikan password" : "Tampilkan password"}
               >
-                {showPass ? "Sembunyikan" : "Tampilkan"}
+                {showPass ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
           </div>
@@ -129,7 +131,7 @@ const Login = () => {
                 Memproses…
               </span>
             ) : (
-              "LOGIN"
+              "Masuk"
             )}
           </button>
 
