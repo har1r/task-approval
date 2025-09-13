@@ -64,8 +64,8 @@ const Login = () => {
     <AuthLayout>
       <div className="mx-auto flex h-full w-full max-w-xl flex-col justify-center px-4 py-8">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-semibold text-slate-900">Selamat Datang</h1>
-          <p className="mt-1 text-sm text-slate-600">Silakan masukkan data untuk login</p>
+          <h1 className="text-2xl font-semibold text-slate-900">Masuk Akun Anda</h1>
+          <p className="mt-1 text-sm text-slate-600">Silakan masukkan email dan  password</p>
         </div>
 
         <form
