@@ -67,7 +67,7 @@ const Dashboard = () => {
   const limit = 5;
   const [nopel, setNopel] = useState("");
 
-  const todayStr = useMemo(formatDateId, []);
+  const todayStr = useMemo(() => formatDateId(new Date, { withWeekday: true}), []);
 
   const {
     barChartTitleData,
@@ -190,7 +190,7 @@ const Dashboard = () => {
           >
             Selamat datang, {user?.name}
           </h1>
-          <p className="text-xs md:text-[13px] text-gray-500">{todayStr(new Date, {withWeekday: true})}</p>
+          <p className="text-xs md:text-[13px] text-gray-500">{todayStr}</p>
         </div>
 
         {/* Summary cards */}
