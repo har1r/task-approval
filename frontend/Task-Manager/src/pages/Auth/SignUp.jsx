@@ -148,7 +148,7 @@ const SignUp = () => {
           {/* Pilih stage hanya jika TIDAK pakai token admin */}
           {!adminInviteToken && (
             <div className="mb-4">
-              <label className="text-sm text-slate-800 block mb-1">Tanggung Jawab Stage</label>
+              <label className="text-sm text-slate-900 block mb-1">Tanggung Jawab Stage</label>
               <select
                 className="input-box w-full bg-white outline-none border border-gray-300 rounded-md p-2"
                 value={selectedStage}

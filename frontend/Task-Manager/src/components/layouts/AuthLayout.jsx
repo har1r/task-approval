@@ -17,14 +17,6 @@ const AuthLayout = ({ children, title = "Task Manager", subtitle = "" }) => {
       <div className="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full bg-indigo-200/70 opacity-60 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-indigo-100/80 opacity-60 blur-3xl" />
 
-      {/* Skip to form (a11y) */}
-      <a
-        href={`#${formRegionId}`}
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-indigo-600 focus:px-3 focus:py-2 focus:text-white"
-      >
-        Lewati ke formulir
-      </a>
-
       {/* Grid container full height */}
       <div className="mx-auto grid h-full max-w-7xl grid-cols-1 md:grid-cols-5 gap-0 md:gap-6 px-4 sm:px-6 md:px-8 py-6">
         {/* Form Panel (header hidden, content scrollable, footer fixed) */}
@@ -57,7 +49,7 @@ const AuthLayout = ({ children, title = "Task Manager", subtitle = "" }) => {
           </div>
         </section>
 
-        {/* Illustration Panel (brand indigo + PETRA lockup) */}
+        {/* Illustration Panel (brand indigo + SIPETRA lockup) */}
         <aside
           id={artRegionId}
           aria-label="Ilustrasi aplikasi"
@@ -70,7 +62,7 @@ const AuthLayout = ({ children, title = "Task Manager", subtitle = "" }) => {
 
               {/* Brand Lockup */}
               <div className="mb-5 flex flex-col items-center">
-                {/* Teks PETRA yang eye-catching */}
+                {/* Teks SIPETRA yang eye-catching */}
                 <h2
                   className="text-3xl font-extrabold uppercase tracking-[0.2em] bg-gradient-to-r from-white via-indigo-100 to-indigo-300 bg-clip-text text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.25)]"
                   aria-label="PETRA"
@@ -103,7 +95,7 @@ const AuthLayout = ({ children, title = "Task Manager", subtitle = "" }) => {
               {/* Ilustrasi */}
               <img
                 src={UI_IMG}
-                alt="Ilustrasi aplikasi PETRA"
+                alt="Ilustrasi aplikasi SIPETRA"
                 className="mx-auto max-h-[420px] w-full max-w-md object-contain drop-shadow-[0_6px_20px_rgba(0,0,0,0.35)]"
                 loading="lazy"
               />
@@ -116,29 +108,3 @@ const AuthLayout = ({ children, title = "Task Manager", subtitle = "" }) => {
 };
 
 export default AuthLayout;
-
-// import React from "react";
-// import UI_IMG from "../../assets/images/auth-img.png";
-
-// const AuthLayout = ({ children, title = "Task Manager" }) => {
-//   return (
-//     <div className="flex flex-col md:flex-row min-h-screen w-full">
-//       {/* Bagian form */}
-//       <div className="w-full md:w-3/5 px-6 sm:px-10 md:px-12 py-8 flex flex-col justify-center">
-//         <h2 className="text-xl sm:text-2xl font-semibold text-black mb-4">{title}</h2>
-//         {children}
-//       </div>
-
-//       {/* Bagian ilustrasi (hanya tampil di md ke atas) */}
-//       <div className="hidden md:flex w-full md:w-2/5 items-center justify-center bg-blue-50 p-6">
-//         <img
-//           src={UI_IMG}
-//           className="w-3/4 max-w-md object-contain"
-//           alt="Auth Illustration"
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AuthLayout;

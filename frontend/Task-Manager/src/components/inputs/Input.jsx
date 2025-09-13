@@ -12,16 +12,16 @@ import React, { forwardRef, useId, useState } from "react";
  */
 const Input = forwardRef(function Input(
   {
+    value,
+    onChange,
+    label,
+    placeholder,
+    type = "text",
+    required,
     id,
     name,
-    label,
-    type = "text",
-    value,
     defaultValue,
-    onChange,
     onBlur,
-    placeholder,
-    required,
     disabled,
     autoComplete,
     error,
