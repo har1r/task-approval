@@ -17,6 +17,10 @@ const CustomBarChart = React.lazy(() =>
 const TaskListTable = React.lazy(() =>
   import("../../components/tabels/TaskListTable")
 );
+
+import CardSkeleton from "../../components/Skeletons/CardSkeleton";
+import TableSkeleton from "../../components/Skeletons/TableSkeleton";
+
 import Pagination from "../../components/ui/Pagination";
 import { UserContext } from "../../context/UserContexts";
 import { UseUserAuth } from "../../hooks/UseUserAuth";
@@ -25,33 +29,6 @@ import axiosInstance from "../../utils/axiosInstance";
 
 const COLORS = ["#8D51FF", "#00B8DB", "#7BCE08", "#FFBB28", "#FF1F57"];
 
-const CardSkeleton = ({ height = 240 }) => (
-  <div
-    className="card animate-pulse"
-    style={{
-      minHeight: height,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-    aria-busy="true"
-  >
-    <div className="h-4 w-1/2 bg-slate-200 rounded" />
-  </div>
-);
-
-const TableSkeleton = () => (
-  <div className="card animate-pulse" aria-busy="true">
-    <div className="h-5 w-32 bg-slate-200 rounded mb-4" />
-    <div className="space-y-3">
-      {[...Array(5)].map((_, i) => (
-        <div key={i} className="h-4 w-full bg-slate-200 rounded" />
-      ))}
-    </div>
-  </div>
-);
-
-// helper kecil (sama seperti Dashboard)
 const mapToBarData = (obj) =>
   obj ? Object.entries(obj).map(([title, count]) => ({ title, count })) : [];
 
@@ -243,7 +220,7 @@ const UserDashboard = () => {
           >
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-base font-medium" id="u-chart-title-heading">
-                Permohonan per permohonan
+                Permohonan per jenis
               </h2>
             </div>
             {barChartTitleData.length > 0 ? (
@@ -254,7 +231,7 @@ const UserDashboard = () => {
               />
             ) : (
               <div className="py-8 text-center text-sm text-slate-500">
-                Belum ada data per permohonan untuk tahap ini.
+                Belum ada data untuk tahap ini.
               </div>
             )}
           </section>
@@ -280,7 +257,7 @@ const UserDashboard = () => {
               />
             ) : (
               <div className="py-8 text-center text-sm text-slate-500">
-                Belum ada data per kecamatan untuk tahap ini.
+                Belum ada data tahap ini.
               </div>
             )}
           </section>

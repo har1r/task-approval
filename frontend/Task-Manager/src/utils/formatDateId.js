@@ -1,8 +1,3 @@
-/**
- * Format tanggal Indonesia tanpa moment.js
- * Contoh: 6 September 2025  (withWeekday=false)
- *         Sabtu, 6 September 2025 (withWeekday=true)
- */
 export const formatDateId = (value, { withWeekday = false } = {}) => {
   if (!value) return "-";
   const date = value instanceof Date ? value : new Date(value);

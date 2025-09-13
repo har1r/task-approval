@@ -32,21 +32,22 @@ import { UseUserAuth } from "../../hooks/UseUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
 
+import { formatDateId } from "../../utils/formatDateId";
+
 // Palet
 const COLORS = ["#8D51FF", "#00B8DB", "#7BCE08", "#FFBB28", "#FF1F57"];
 
-// Utils
-const formatTodayID = () =>
-  new Intl.DateTimeFormat("id-ID", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(new Date());
-
-// Helper bar data (seperti UserDashboard)
 const mapToBarData = (obj) =>
   obj ? Object.entries(obj).map(([title, count]) => ({ title, count })) : []; // NEW
+
+// Utils
+// const formatTodayID = () =>
+//   new Intl.DateTimeFormat("id-ID", {
+//     weekday: "long",
+//     day: "numeric",
+//     month: "long",
+//     year: "numeric",
+//   }).format(new Date());
 
 // ============================= //
 // Komponen Dashboard (Admin)    //
@@ -66,7 +67,7 @@ const Dashboard = () => {
   const limit = 5; // NEW (tetap bisa diubah)
   const [nopel, setNopel] = useState(""); // NEW: query NOPel untuk search
 
-  const todayStr = useMemo(formatTodayID, []);
+  const todayStr = useMemo(formatDateId, []);
 
   // Derived (disatukan agar rapi, mengikuti pola UserDashboard)
   const {
@@ -189,7 +190,7 @@ const Dashboard = () => {
           >
             Selamat datang, {user?.name}
           </h1>
-          <p className="text-xs md:text-[13px] text-gray-500">{todayStr}</p>
+          <p className="text-xs md:text-[13px] text-gray-500">{todayStr(new Date, {withWeekday: true})}</p>
         </div>
 
         {/* Summary cards */}
@@ -251,7 +252,7 @@ const Dashboard = () => {
               />
             ) : (
               <div className="py-8 text-center text-sm text-slate-500">
-                Belum ada data per permohonan.
+                Belum ada data untuk ditampilkan.
               </div>
             )}
           </section>
@@ -278,7 +279,7 @@ const Dashboard = () => {
               />
             ) : (
               <div className="py-8 text-center text-sm text-slate-500">
-                Belum ada data per kecamatan.
+                Belum ada data untuk ditampilkan.
               </div>
             )}
           </section>
@@ -304,7 +305,7 @@ const Dashboard = () => {
               />
             ) : (
               <div className="py-8 text-center text-sm text-slate-500">
-                Belum ada data grafik.
+                Belum ada data untuk ditampilkan.
               </div>
             )}
           </section>
