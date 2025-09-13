@@ -264,11 +264,6 @@ const Dashboard = () => {
             className="card"
           >
             <div className="flex items-center justify-between mb-5">
-              {loading && (
-                <div className="absolute inset-0 z-10 grid place-items-center rounded-xl bg-white/60 backdrop-blur-[1px]">
-                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent" />
-                </div>
-              )}
               <h2
                 className="text-base font-medium"
                 id="chart-subdistrict-heading"
@@ -298,11 +293,6 @@ const Dashboard = () => {
             className="card md:col-span-2"
           >
             <div className="flex items-center justify-between mb-5">
-              {loading && (
-                <div className="absolute inset-0 z-10 grid place-items-center rounded-xl bg-white/60 backdrop-blur-[1px]">
-                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent" />
-                </div>
-              )}
               <h2 className="text-base font-medium" id="chart-growth-heading">
                 Pertumbuhan Permohonan (12 Minggu Terakhir)
               </h2>

@@ -130,7 +130,7 @@ const TaskListTable = ({
               </tr>
             );
           })}
-
+{/* 
           {loading &&
             Array.from({ length: Math.max(3, 5 - rows.length) }).map((_, i) => (
               <tr key={`skeleton-${i}`} className="[&>td]:border-b">
@@ -140,7 +140,7 @@ const TaskListTable = ({
                   </td>
                 ))}
               </tr>
-            ))}
+            ))} */}
         </tbody>
       </table>
     </div>
