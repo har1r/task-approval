@@ -120,7 +120,7 @@ const CreateTask = () => {
           {/* No Pelayanan */}
           <div>
             <label htmlFor={idNopel} className="block text-sm text-slate-600 mb-1">
-              NOPEL
+              NOPEL <span className="text-red-500">*</span>
             </label>
             <input
               id={idNopel}
@@ -137,7 +137,7 @@ const CreateTask = () => {
           {/* Nama Lama */}
           <div>
             <label htmlFor={idOldName} className="block text-sm text-slate-600 mb-1">
-              Nama Lama
+              Nama Lama <span className="text-red-500">*</span>
             </label>
             <input
               id={idOldName}
@@ -154,7 +154,7 @@ const CreateTask = () => {
           {/* NOP */}
           <div>
             <label htmlFor={idNop} className="block text-sm text-slate-600 mb-1">
-              NOP
+              NOP <span className="text-red-500">*</span>
             </label>
             <input
               id={idNop}
@@ -172,7 +172,7 @@ const CreateTask = () => {
           {/* Alamat */}
           <div>
             <label htmlFor={idAddress} className="block text-sm text-slate-600 mb-1">
-              Alamat
+              Alamat <span className="text-red-500">*</span>
             </label>
             <input
               id={idAddress}
@@ -189,7 +189,7 @@ const CreateTask = () => {
           {/* Kelurahan/Desa */}
           <div>
             <label htmlFor={idVillage} className="block text-sm text-slate-600 mb-1">
-              Kelurahan/Desa
+              Kelurahan/Desa <span className="text-red-500">*</span>
             </label>
             <input
               id={idVillage}
@@ -206,7 +206,7 @@ const CreateTask = () => {
           {/* Kecamatan */}
           <div>
             <label htmlFor={idSubdistrict} className="block text-sm text-slate-600 mb-1">
-              Kecamatan
+              Kecamatan <span className="text-red-500">*</span>
             </label>
             <select
               id={idSubdistrict}
@@ -228,7 +228,7 @@ const CreateTask = () => {
           {/* Jenis Permohonan */}
           <div className="md:col-span-2">
             <label htmlFor={idTitle} className="block text-sm text-slate-600 mb-1">
-              Jenis Permohonan
+              Jenis Permohonan <span className="text-red-500">*</span>
             </label>
             <select
               id={idTitle}

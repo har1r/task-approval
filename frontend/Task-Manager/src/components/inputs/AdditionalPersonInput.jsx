@@ -35,7 +35,7 @@ const AdditionalPersonInput = ({
           htmlFor={idNewName}
           className="block text-sm text-slate-600 mb-1"
         >
-          Nama Baru
+          Nama Baru <span className="text-red-500">*</span>
         </label>
         <input
           id={idNewName}
@@ -44,6 +44,7 @@ const AdditionalPersonInput = ({
           value={item.newName ?? ""}
           onChange={(e) => handleChange(e, index)}
           placeholder="Nama Baru"
+          required
           className="form-input w-full capitalize"
         />
       </div>
@@ -51,7 +52,7 @@ const AdditionalPersonInput = ({
       {/* Luas Tanah */}
       <div>
         <label htmlFor={idLand} className="block text-sm text-slate-600 mb-1">
-          Luas Tanah (m²)
+          Luas Tanah (m²) <span className="text-red-500">*</span>
         </label>
         <input
           id={idLand}
@@ -63,6 +64,7 @@ const AdditionalPersonInput = ({
           className="form-input w-full"
           min={0}
           step="any"
+          required
           inputMode="decimal"
         />
       </div>
@@ -73,7 +75,7 @@ const AdditionalPersonInput = ({
           htmlFor={idBuilding}
           className="block text-sm text-slate-600 mb-1"
         >
-          Luas Bangunan (m²)
+          Luas Bangunan (m²) <span className="text-red-500">*</span>
         </label>
         <input
           id={idBuilding}
@@ -84,6 +86,7 @@ const AdditionalPersonInput = ({
           placeholder="Luas Bangunan (m²)"
           className="form-input w-full"
           min={0}
+          required
           step="any"
           inputMode="decimal"
         />
@@ -92,7 +95,7 @@ const AdditionalPersonInput = ({
       {/* Nomor Sertifikat (opsional) */}
       <div>
         <label htmlFor={idCert} className="block text-sm text-slate-600 mb-1">
-          Nomor Sertifikat
+          Nomor Sertifikat <span className="text-red-500">*</span>
         </label>
         <input
           id={idCert}
@@ -102,6 +105,7 @@ const AdditionalPersonInput = ({
           onChange={(e) => handleChange(e, index)}
           placeholder="Nomor Sertifikat"
           className="form-input w-full uppercase"
+          required
         />
       </div>
 
