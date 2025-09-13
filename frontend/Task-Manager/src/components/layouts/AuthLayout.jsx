@@ -12,7 +12,7 @@ const AuthLayout = ({ children, title = "Task Manager", subtitle = "" }) => {
   const artRegionId = useId();
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-slate-50">
+    <div className="relative h-screen w-full overflow-x-hidden bg-gradient-to-br from-indigo-50 via-white to-slate-50">
       {/* Decorative blobs */}
       <div className="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full bg-indigo-200/70 opacity-60 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-indigo-100/80 opacity-60 blur-3xl" />
