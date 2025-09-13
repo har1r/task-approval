@@ -153,7 +153,7 @@ const SignUp = () => {
             <div>
               <label
                 htmlFor={passId}
-                className="mb-1 block text-sm font-medium text-slate-800"
+                className="mb-1 block text-sm font-medium text-slate-700"
               >
                 Password
               </label>
@@ -198,7 +198,7 @@ const SignUp = () => {
           {/* Pilih stage hanya jika TIDAK pakai token admin */}
           {!adminInviteToken && (
             <div className="mb-4">
-              <label htmlFor={stageId} className="text-sm text-slate-900 block mb-1">
+              <label htmlFor={stageId} className="text-sm text-slate-00 block mb-1">
                 Tanggung Jawab Tahapan
               </label>
               <select
