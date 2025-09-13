@@ -23,10 +23,7 @@ const Input = (
     required,
     hint,
     error,
-    className = "",
-    inputClassName = "",
-    leftIcon: LeftIcon,
-    rightNode,
+    // className = "",
     // defaultValue,
     // onBlur,
     // disabled,
@@ -50,15 +47,15 @@ const Input = (
   const baseInput =
     "w-full rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none";
 
-  const leftPad = LeftIcon ? "pl-9" : "pl-3";
-  const rightPad = rightNode || isPassword ? "pr-10" : "pr-3";
+  // const leftPad = LeftIcon ? "pl-9" : "pl-3";
+  // const rightPad = rightNode || isPassword ? "pr-10" : "pr-3";
 
   // const handleChange = (e) => {
   //   onChange?.(e.target.value, e);
   // };
 
   return (
-    <div className={`w-full ${className}`}>
+    <div className="w-fulf">
       {label && (
         <label htmlFor={inputId} className="mb-1 block text-sm font-medium text-slate-700">
           {label} {required && <span className="text-red-500">*</span>}
@@ -66,11 +63,11 @@ const Input = (
       )}
 
       <div className={baseWrap}>
-        {LeftIcon && (
+        {/* {LeftIcon && (
           <span className="pointer-events-none absolute left-3 text-slate-400">
             <LeftIcon className="h-5 w-5" aria-hidden />
           </span>
-        )}
+        )} */}
 
         <input
           id={inputId}
@@ -81,7 +78,7 @@ const Input = (
           value={value}
           onChange={onChange}
           required={required}
-          className={`${baseInput} ${leftPad} ${rightPad} ${inputClassName}`}
+          className={`${baseInput}`}
           // ref={ref}
           // defaultValue={defaultValue}
           // onBlur={onBlur}
