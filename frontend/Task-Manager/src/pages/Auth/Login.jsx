@@ -53,9 +53,14 @@ const Login = () => {
       toast.success("Login berhasil!");
 
       const isAdmin = String(role || "").toLowerCase() === "admin";
-      navigate(isAdmin ? "/admin/dashboard" : "/user/dashboard", { replace: true });
+      navigate(isAdmin ? "/admin/dashboard" : "/user/dashboard", {
+        replace: true,
+      });
     } catch (error) {
-      const errMsg = error?.response?.data?.message || error?.message || "Gagal login. Coba lagi.";
+      const errMsg =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Gagal login. Coba lagi.";
       toast.error(errMsg);
     } finally {
       setSubmitting(false);
@@ -66,8 +71,12 @@ const Login = () => {
     <AuthLayout>
       <div className="mx-auto flex h-full w-full max-w-xl flex-col justify-center px-4 py-8">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-semibold text-slate-900">Masuk Akun Anda</h1>
-          <p className="mt-1 text-sm text-slate-600">Silakan masukkan email dan  password</p>
+          <h1 className="text-2xl font-semibold text-slate-900">
+            Masuk Akun Anda
+          </h1>
+          <p className="mt-1 text-sm text-slate-600">
+            Silakan masukkan email dan password
+          </p>
         </div>
 
         <form
@@ -83,13 +92,16 @@ const Login = () => {
             placeholder="Masukkan email"
             autoComplete="email"
             value={email}
-            onChange={(val) => setEmail(val)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             hint="Gunakan email terdaftar."
           />
 
           <div>
-            <label htmlFor={passId} className="mb-1 block text-sm font-medium text-slate-800">
+            <label
+              htmlFor={passId}
+              className="mb-1 block text-sm font-medium text-slate-800"
+            >
               Password
             </label>
             <div className="relative">
@@ -124,9 +136,25 @@ const Login = () => {
           >
             {submitting ? (
               <span className="inline-flex items-center justify-center gap-2">
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v3A5 5 0 007 12H4z" />
+                <svg
+                  className="h-4 w-4 animate-spin"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v3A5 5 0 007 12H4z"
+                  />
                 </svg>
                 Memproses…
               </span>
@@ -137,7 +165,10 @@ const Login = () => {
 
           <p className="text-center text-sm text-slate-700">
             Belum punya akun?{" "}
-            <Link to="/signup" className="font-medium text-indigo-600 underline hover:text-indigo-700">
+            <Link
+              to="/signup"
+              className="font-medium text-indigo-600 underline hover:text-indigo-700"
+            >
               Daftar di sini
             </Link>
           </p>

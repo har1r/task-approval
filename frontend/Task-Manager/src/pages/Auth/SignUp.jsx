@@ -29,7 +29,8 @@ const SignUp = () => {
   const nameId = useId();
   const emailId = useId();
   const passId = useId();
-
+  const adminInvTokenId = useId()
+  const stageId = useId();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -130,20 +131,23 @@ const SignUp = () => {
             <Input
               id={nameId}
               name="name"
-              label="Name"
+              label="Nama"
               type="text"
               placeholder="Masukkan nama lengkap"
               autoComplete="name"
               value={name}
-              onChange={setName}
+              onChange={(e) => setName(e.target.value)}
               required
             />
             <Input
-              value={email}
-              onChange={setEmail}
+              id={emailId}
+              name="email"
               label="Email"
-              placeholder="Masukkan email"
               type="email"
+              placeholder="Masukkan email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <div>
@@ -179,35 +183,31 @@ const SignUp = () => {
                 </button>
               </div>
             </div>
-            {/* <Input
-              value={password}
-              onChange={setPassword}
-              label="Password"
-              placeholder="Masukkan password"
-              type="password"
-              required
-            /> */}
             <Input
+              id={adminInvTokenId}
+              name="adminInviteToken"
+              label="Admin Token (opsional)"
+              type="text"
+              placeholder="Token admin"
+              autoComplete="off"
               value={adminInviteToken}
               onChange={setAdminInviteToken}
-              label="Admin Token (opsional)"
-              placeholder="Token admin"
-              type="text"
             />
           </div>
 
           {/* Pilih stage hanya jika TIDAK pakai token admin */}
           {!adminInviteToken && (
             <div className="mb-4">
-              <label className="text-sm text-slate-900 block mb-1">
-                Tanggung Jawab Stage
+              <label htmlFor={stageId} className="text-sm text-slate-900 block mb-1">
+                Tanggung Jawab Tahapan
               </label>
               <select
+                id={stageId}
                 className="input-box w-full bg-white outline-none border border-gray-300 rounded-md p-2"
                 value={selectedStage}
                 onChange={(e) => setSelectedStage(e.target.value)}
               >
-                <option value="">-- Pilih Stage --</option>
+                <option value="">-- Pilih Tahapan --</option>
                 {Object.keys(stageToRoleMap).map((stage) => (
                   <option key={stage} value={stage}>
                     {stage}

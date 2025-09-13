@@ -10,38 +10,38 @@ import React, { forwardRef, useId, useState } from "react";
  * - rightNode: ReactNode (opsional, custom tombol/ikon kanan)
  * Catatan: onChange akan dipanggil dengan (value, event) agar mudah dipakai.
  */
-const Input = forwardRef(function Input(
+const Input = (
   {
-    value,
-    onChange,
-    label,
-    placeholder,
-    type = "text",
-    required,
     id,
     name,
-    defaultValue,
-    onBlur,
-    disabled,
+    label,
+    type = "text",
+    placeholder,
     autoComplete,
-    error,
+    value,
+    onChange,
+    required,
     hint,
-    leftIcon: LeftIcon,
-    rightNode,
-    className = "",
-    inputClassName = "",
-    maxLength,
-    min,
-    max,
-  },
-  ref
-) {
+    // defaultValue,
+    // onBlur,
+    // disabled,
+    // error,
+    // leftIcon: LeftIcon,
+    // rightNode,
+    // className = "",
+    // inputClassName = "",
+    // maxLength,
+    // min,
+    // max,
+  }
+  // ref
+) => {
   const reactId = useId();
   const inputId = id || `${name || "field"}-${reactId}`;
-  const [show, setShow] = useState(false); //1
+  // const [show, setShow] = useState(false); //1
 
-  const isPassword = type === "password"; //2
-  const inputType = isPassword ? (show ? "text" : "password") : type; //3
+  // const isPassword = type === "password"; //2
+  // const inputType = isPassword ? (show ? "text" : "password") : type; //3
 
   const baseWrap =
     "relative flex items-center rounded-lg border bg-white transition-colors " +
@@ -50,12 +50,12 @@ const Input = forwardRef(function Input(
   const baseInput =
     "w-full rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none";
 
-  const leftPad = LeftIcon ? "pl-9" : "pl-3";
-  const rightPad = rightNode || isPassword ? "pr-10" : "pr-3";
+  // const leftPad = LeftIcon ? "pl-9" : "pl-3";
+  // const rightPad = rightNode || isPassword ? "pr-10" : "pr-3";
 
-  const handleChange = (e) => {
-    onChange?.(e.target.value, e);
-  };
+  // const handleChange = (e) => {
+  //   onChange?.(e.target.value, e);
+  // };
 
   return (
     <div className={`w-full ${className}`}>
@@ -66,35 +66,35 @@ const Input = forwardRef(function Input(
       )}
 
       <div className={baseWrap}>
-        {/* Left icon */}
+        {/* Left icon
         {LeftIcon && (
           <span className="pointer-events-none absolute left-3 text-slate-400">
             <LeftIcon className="h-5 w-5" aria-hidden />
           </span>
-        )}
+        )} */}
 
         <input
           id={inputId}
-          ref={ref}
           name={name}
-          type={inputType}
-          value={value}
-          defaultValue={defaultValue}
-          onChange={handleChange}
-          onBlur={onBlur}
+          type={type}
           placeholder={placeholder}
-          required={required}
-          disabled={disabled}
           autoComplete={autoComplete}
-          aria-invalid={!!error}
-          aria-describedby={hint || error ? `${inputId}-desc` : undefined}
-          className={`${baseInput} ${leftPad} ${rightPad} ${inputClassName}`}
-          maxLength={maxLength}
-          min={min}
-          max={max}
+          value={value}
+          onChange={onChange}
+          required={required}
+          // ref={ref}
+          // defaultValue={defaultValue}
+          // onBlur={onBlur}
+          // disabled={disabled}
+          // aria-invalid={!!error}
+          // aria-describedby={hint || error ? `${inputId}-desc` : undefined}
+          // className={`${baseInput} ${leftPad} ${rightPad} ${inputClassName}`}
+          // maxLength={maxLength}
+          // min={min}
+          // max={max}
         />
 
-        {/* Right slot / password toggle */}
+        {/* Right slot / password toggle
         <div className="absolute right-2 flex items-center gap-1">
           {rightNode}
           {isPassword && (
@@ -107,7 +107,7 @@ const Input = forwardRef(function Input(
               {show ? "Sembunyikan" : "Tampilkan"}
             </button>
           )}
-        </div>
+        </div> */}
       </div>
 
       {(hint || error) && (
@@ -120,6 +120,6 @@ const Input = forwardRef(function Input(
       )}
     </div>
   );
-});
+};
 
 export default Input;
