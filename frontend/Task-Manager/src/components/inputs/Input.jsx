@@ -23,12 +23,12 @@ const Input = (
     required,
     hint,
     error,
+    className = "",
     // defaultValue,
     // onBlur,
     // disabled,
     // leftIcon: LeftIcon,
     // rightNode,
-    // className = "",
     // inputClassName = "",
     // maxLength,
     // min,
@@ -47,8 +47,8 @@ const Input = (
     "relative flex items-center rounded-lg border bg-white transition-colors " +
     (error ? "border-red-400 focus-within:border-red-500" : "border-slate-300 focus-within:border-indigo-500");
 
-  const baseInput =
-    "w-full rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none";
+  // const baseInput =
+  //   "w-full rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none";
 
   // const leftPad = LeftIcon ? "pl-9" : "pl-3";
   // const rightPad = rightNode || isPassword ? "pr-10" : "pr-3";
