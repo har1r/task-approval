@@ -2,7 +2,6 @@ import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { BiSolidDetail } from "react-icons/bi";
 
-// Membuat tanggal format Indonesia
 const DF_ID = new Intl.DateTimeFormat("id-ID");
 
 const getNewName = (task) => {
@@ -47,7 +46,7 @@ const TaskListTable = ({
   const offset = (Number(page) - 1) * Number(limit);
   const [localQuery, setLocalQuery] = useState(searchNopel ?? "");
 
-  const handleSubmit = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
     onSearchNopel?.(localQuery.trim());
   };
@@ -55,7 +54,7 @@ const TaskListTable = ({
   return (
     <div className="overflow-x-auto">
       {/* Bar pencarian NOPel */}
-      <form onSubmit={handleSubmit} className="mb-3 flex items-center gap-2">
+      <form onSubmit={handleSearch} className="mb-3 flex items-center gap-2">
         <input
           type="text"
           value={localQuery}

@@ -27,18 +27,20 @@ import { UseUserAuth } from "../../hooks/UseUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
 
+import { formatDateId } from "../../utils/formatDateId";
+
 const COLORS = ["#8D51FF", "#00B8DB", "#7BCE08", "#FFBB28", "#FF1F57"];
 
 const mapToBarData = (obj) =>
   obj ? Object.entries(obj).map(([title, count]) => ({ title, count })) : [];
 
-const formatTodayID = () =>
-  new Intl.DateTimeFormat("id-ID", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(new Date());
+// const formatTodayID = () =>
+//   new Intl.DateTimeFormat("id-ID", {
+//     weekday: "long",
+//     day: "numeric",
+//     month: "long",
+//     year: "numeric",
+//   }).format(new Date());
 
 const UserDashboard = () => {
   UseUserAuth();
@@ -53,17 +55,16 @@ const UserDashboard = () => {
   const limit = 5;
   const [nopel, setNopel] = useState(""); // ⬅️ query NOPel
 
-  const todayStr = useMemo(formatTodayID, []);
+  const todayStr = useMemo(formatDateId, []);
 
-  // derived (disatukan seperti Dashboard admin)
   const {
     barChartTitleData,
     barChartSubdistrictData,
+    approvedTasks,
     respPage,
     respLimit,
     totalPages,
     stageBadge,
-    approvedTasks,
     stage,
   } = useMemo(() => {
     const stats = userDashboardData?.stats;
@@ -104,7 +105,8 @@ const UserDashboard = () => {
 
   // fetcher + abort (selaras Dashboard admin)
   const ctrlRef = useRef(null);
-  const fetchDashboard = useCallback(
+
+  const fetchUserDashboardData = useCallback(
     async (p = page) => {
       ctrlRef.current?.abort();
       const ctrl = new AbortController();
@@ -112,14 +114,16 @@ const UserDashboard = () => {
 
       try {
         setLoading(true);
-        const res = await axiosInstance.get(
+
+        const userDashReq = await axiosInstance.get(
           API_PATHS.TASK.GET_USER_DASHBOARD_DATA,
           {
             params: { page: p, limit, nopel: nopel || undefined }, // ⬅️ kirim nopel bila ada
             signal: ctrl.signal,
           }
         );
-        setUserDashboardData(res?.data ?? null);
+
+        setUserDashboardData(userDashReq?.data ?? null);
       } catch (err) {
         if (
           err?.name !== "CanceledError" &&
@@ -138,14 +142,14 @@ const UserDashboard = () => {
 
   // mount
   useEffect(() => {
-    fetchDashboard(1);
+    fetchUserDashboardData(1);
     return () => ctrlRef.current?.abort();
-  }, []); // eslint-disable-line
+  }, []);
 
   // ganti halaman / query NOPel
   useEffect(() => {
-    fetchDashboard(page);
-  }, [page, nopel, fetchDashboard]);
+    fetchUserDashboardData(page);
+  }, [page, nopel, fetchUserDashboardData]);
 
   return (
     <DashboardLayout activeMenu="Dashboard">
@@ -170,7 +174,7 @@ const UserDashboard = () => {
           >
             Selamat Datang, {user?.name}
           </h1>
-          <p className="text-xs md:text-[13px] text-gray-500">{todayStr}</p>
+          <p className="text-xs md:text-[13px] text-gray-500">{todayStr(new Date, { withWeekday: true})}</p>
         </div>
 
         {/* Summary cards */}
