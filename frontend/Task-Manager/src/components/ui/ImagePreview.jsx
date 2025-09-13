@@ -22,11 +22,11 @@ const DEFAULT_MAX_MB = 3;
 const ImagePreview = ({
   image,
   setImage,
-  label = "Profile Picture",
+  label,
+  shape,
   acceptTypes = DEFAULT_TYPES,
   maxMB = DEFAULT_MAX_MB,
   helperText,
-  shape = "circle",
   disabled = false,
   onError,
 }) => {
@@ -241,49 +241,6 @@ const ImagePreview = ({
 };
 
 export default ImagePreview;
-
-// import React, { useState, useEffect } from "react";
-
-// const ImagePreview = ({ image, setImage }) => {
-//   const [preview, setPreview] = useState(null);
-
-//   useEffect(() => {
-//     if (!image) {
-//       setPreview(null);
-//       return;
-//     }
-
-//     const objectUrl = URL.createObjectURL(image);
-//     setPreview(objectUrl);
-
-//     // Clean up URL untuk mencegah memory leak
-//     return () => URL.revokeObjectURL(objectUrl);
-//   }, [image]);
-
-//   return (
-//     <div className="mb-4 w-full">
-//       <label className="block text-sm text-slate-800 mb-1">Profile Picture</label>
-//       <input
-//         type="file"
-//         accept="image/jpeg, image/png, image/jpg"
-//         onChange={(e) => setImage(e.target.files[0])}
-//         className="input-box w-full bg-white border border-gray-300 rounded-md p-2 outline-none"
-//       />
-//       {preview && (
-//         <div className="mt-2 flex items-center gap-4">
-//           <p className="text-sm text-slate-700">Preview:</p>
-//           <img
-//             src={preview}
-//             alt="Preview"
-//             className="w-24 h-24 rounded-full object-cover border border-gray-300"
-//           />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ImagePreview;
 
 
 

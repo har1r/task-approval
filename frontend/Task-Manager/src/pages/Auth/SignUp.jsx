@@ -124,7 +124,12 @@ const SignUp = () => {
 
         <form onSubmit={handleSignUp} aria-label="Form Signup">
           {/* Preview foto profil */}
-          <PreviewImage image={profilePic} setImage={setProfilePic} />
+          <PreviewImage 
+            image={profilePic} 
+            setImage={setProfilePic}
+            label="Profile Picture"
+            shape="circle" 
+          />
 
           {/* Input fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
