@@ -5,27 +5,28 @@ import React, {
   useMemo,
   useCallback,
   Suspense,
-  useRef, // NEW
+  useRef,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LuArrowRight } from "react-icons/lu";
 
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-// REMOVED: LoadingSpinner full-page tidak dipakai (ikuti pola UserDashboard)
 import InfoCard from "../../components/cards/InfoCard";
-// CHANGED: jadikan lazy agar Suspense benar-benar berguna
 const CustomBarChart = React.lazy(() =>
   import("../../components/charts/CustomBarChart")
-); // CHANGED
+);
 const CustomGraphChart = React.lazy(() =>
   import("../../components/charts/CustomGraphChart")
-); // CHANGED
+);
 const TaskListTable = React.lazy(() =>
   import("../../components/tabels/TaskListTable")
-); // CHANGED
+);
 
-import Pagination from "../../components/ui/Pagination"; // NEW
+import CardSkeleton from "../../components/Skeletons/CardSkeleton";
+import TableSkeleton from "../../components/Skeletons/TableSkeleton";
+
+import Pagination from "../../components/ui/Pagination";
 import { UserContext } from "../../context/UserContexts";
 import { UseUserAuth } from "../../hooks/UseUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -33,33 +34,6 @@ import axiosInstance from "../../utils/axiosInstance";
 
 // Palet
 const COLORS = ["#8D51FF", "#00B8DB", "#7BCE08", "#FFBB28", "#FF1F57"];
-
-// Skeletons (tetap untuk Suspense)
-const CardSkeleton = ({ height = 240 }) => (
-  <div
-    className="card animate-pulse"
-    style={{
-      minHeight: height,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-    aria-busy="true"
-  >
-    <div className="h-4 w-1/2 bg-slate-200 rounded" />
-  </div>
-);
-
-const TableSkeleton = () => (
-  <div className="card animate-pulse" aria-busy="true">
-    <div className="h-5 w-32 bg-slate-200 rounded mb-4" />
-    <div className="space-y-3">
-      {[...Array(5)].map((_, i) => (
-        <div key={i} className="h-4 w-full bg-slate-200 rounded" />
-      ))}
-    </div>
-  </div>
-);
 
 // Utils
 const formatTodayID = () =>
@@ -266,7 +240,7 @@ const Dashboard = () => {
           >
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-base font-medium" id="chart-title-heading">
-                Permohonan Per Jenis Permohonan
+                Permohonan Per Jenis
               </h2>
             </div>
             {barChartTitleData.length > 0 ? (
