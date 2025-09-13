@@ -44,7 +44,7 @@ const AuthLayout = ({ children, title = "Task Manager", subtitle = "" }) => {
 
             {/* Footer selalu terlihat */}
             <footer className="mt-4 flex-none text-[12px] text-slate-500">
-              © {new Date().getFullYear()} Task Manager. All rights reserved.
+              © {new Date().getFullYear()} Sipetra. All rights reserved.
             </footer>
           </div>
         </section>

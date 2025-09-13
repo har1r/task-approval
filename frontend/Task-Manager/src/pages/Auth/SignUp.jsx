@@ -127,7 +127,7 @@ const SignUp = () => {
           <PreviewImage 
             image={profilePic} 
             setImage={setProfilePic}
-            label="Profile Picture"
+            label="Foto Profil"
             shape="circle" 
           />
 
