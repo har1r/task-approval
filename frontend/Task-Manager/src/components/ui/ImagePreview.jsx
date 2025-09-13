@@ -184,7 +184,7 @@ const ImagePreview = ({
                 >
                   <path d="M4 3a2 2 0 00-2 2v8a2 2 0 002 2h3l2 2 2-2h3a2 2 0 002-2V9l-4-4H4z" />
                 </svg>
-                <span className="text-sm text-slate-700">
+                <span className="text-sm text-slate-400">
                   {image ? "Ganti gambar" : "Klik atau tarik & letakkan gambar di sini"}
                 </span>
               </div>
