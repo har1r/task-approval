@@ -102,7 +102,7 @@ const Login = () => {
               htmlFor={passId}
               className="mb-1 block text-sm font-medium text-slate-700"
             >
-              Password
+              Password <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <input

@@ -40,31 +40,3 @@ const LoadingSpinner = ({
 //higher-order component (HOC) di React yang dipakai untuk mencegah komponen merender ulang tanpa perlu.
 //karena kalau parent component render ulang, semua child juga ikut render ulang (walau props-nya sama).
 export default React.memo(LoadingSpinner);
-
-// import React from "react";
-
-// /**
-//  * LoadingSpinner
-//  * -----------------
-//  * Komponen spinner loading yang bisa dipakai di seluruh aplikasi.
-//  * Bisa digunakan saat: 
-//  * - Memuat halaman (lazy load)
-//  * - Menunggu data dari API
-//  * - Saat user context masih loading
-//  */
-
-// const LoadingSpinner = ({ size = 16, color = "blue" }) => {
-//   // Tailwind class size, bisa diubah sesuai props
-//   const spinnerSize = `w-${size} h-${size} border-4`;
-
-//   return (
-//     <div className="flex items-center justify-center h-screen">
-//       <div
-//         className={`${spinnerSize} border-${color}-500 border-dashed rounded-full animate-spin`}
-//       ></div>
-//     </div>
-//   );
-// };
-
-// export default LoadingSpinner;
-
