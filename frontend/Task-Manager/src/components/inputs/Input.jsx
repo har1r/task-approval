@@ -46,7 +46,6 @@ const Input = (
 
   const baseInput =
     "w-full rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none";
-
   // const leftPad = LeftIcon ? "pl-9" : "pl-3";
   // const rightPad = rightNode || isPassword ? "pr-10" : "pr-3";
 
