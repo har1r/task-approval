@@ -1,3 +1,5 @@
+import React from "react";
+
 const CardSkeleton = ({ height = 240 }) => (
   <div
     className="card animate-pulse"
