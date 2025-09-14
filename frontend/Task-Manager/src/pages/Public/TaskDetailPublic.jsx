@@ -6,7 +6,7 @@ import TaskStageProgress from "../../components/cards/TaskStageProgress";
 import { formatDateId } from "../../utils/formatDateId";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
 
-// --- helpers ---
+/* ----------------------------- Helpers ----------------------------- */
 const formatTitle = (str = "") =>
   String(str).replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -63,15 +63,16 @@ const StatusChip = ({ status }) => {
 };
 
 const InfoRow = ({ label, children }) => (
-  <div className="grid grid-cols-[120px_1ch_1fr] gap-x-2 text-sm sm:grid-cols-[140px_1ch_1fr]">
+  <div className="grid grid-cols-[140px_1ch_1fr] gap-x-2 text-sm">
     <span className="font-medium text-slate-700">{label}</span>
     <span className="text-slate-400">:</span>
-    <span className="text-slate-900 break-words">{children ?? "-"}</span>
+    <span className="break-words text-slate-900">{children ?? "-"}</span>
   </div>
 );
 
+/* Section card — width-safe inside container */
 const SectionCard = ({ title, children, className = "" }) => (
-  <section className={`rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
+  <section className={`w-full rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
     {title ? (
       <header className="border-b border-slate-200 px-4 py-3 sm:px-5">
         <h2 className="text-base font-semibold text-slate-900">{title}</h2>
@@ -81,6 +82,7 @@ const SectionCard = ({ title, children, className = "" }) => (
   </section>
 );
 
+/* --------------------------- Main Page ----------------------------- */
 const TaskDetailPublic = () => {
   const { id } = useParams();
   const [task, setTask] = useState(null);
@@ -140,19 +142,20 @@ const TaskDetailPublic = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 py-6 px-3 sm:py-10 sm:px-4">
+      {/* container */}
       <div className="mx-auto w-full max-w-5xl space-y-6">
         {/* Header */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <div className="w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <div className="relative">
-                  <div className="absolute inset-0 rounded-lg bg-indigo-400/30 blur opacity-60" />
+                  <div className="absolute inset-0 rounded-lg bg-indigo-400/30 opacity-60 blur" />
                   <div className="relative grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-500 text-white shadow-sm ring-1 ring-white/10">
                     <span className="text-[14px] font-extrabold">P</span>
                   </div>
                 </div>
-                <h1 className="truncate text-base font-semibold text-slate-900 sm:text-lg">
+                <h1 className="truncate text-lg font-semibold text-slate-900">
                   Detail Permohonan — <span className="capitalize">{formatTitle(title)}</span>
                 </h1>
               </div>
@@ -165,7 +168,7 @@ const TaskDetailPublic = () => {
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
                 <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M12 2 2 7l10 5 10-5-10-5zm0 7L2 14l10 5 10-5-10-5z" />
                 </svg>
                 Tahap: {stageLabel[String(currentStage)?.toLowerCase()] || formatTitle(currentStage)}
               </span>
@@ -174,19 +177,15 @@ const TaskDetailPublic = () => {
         </div>
 
         {/* Progress + Content */}
-        <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-          {/* Progress (MOBILE) */}
+        <section className="w-full rounded-2xl border border-slate-200 bg-white shadow-sm">
+          {/* Mobile: put progress on top horizontally */}
           <div className="block border-b border-slate-200 p-4 sm:hidden">
             <TaskStageProgress task={task} orientation="horizontal" />
           </div>
 
-          {/* Grid layout (DESKTOP) */}
-          <div className="grid gap-4 p-4 md:grid-cols-[auto_1fr] md:gap-6 md:p-5 md:items-start">
-            {/* Sidebar Progress (hidden on mobile) */}
-            <aside
-              className="hidden md:flex md:justify-end md:self-start md:pr-4 md:border-r md:border-slate-200"
-              aria-label="Progress Tahapan"
-            >
+          <div className="grid gap-4 p-4 md:grid-cols-[auto_1fr] md:items-start md:gap-6 md:p-5">
+            {/* Desktop: narrow progress column, divider on right */}
+            <aside className="hidden md:flex md:justify-end md:self-stretch md:pr-4 md:border-r md:border-slate-200">
               <div className="w-fit">
                 <TaskStageProgress task={task} orientation="vertical" />
               </div>
@@ -195,7 +194,7 @@ const TaskDetailPublic = () => {
             {/* Right column */}
             <div className="space-y-6">
               {/* Informasi Utama */}
-              <SectionCard title="Data Subjek Pajak Baru" className="!mt-0">
+              <SectionCard title="Data Subjek Pajak Baru">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div className="space-y-2">
                     <InfoRow label="NOPEL">{mainData.nopel}</InfoRow>
@@ -242,9 +241,8 @@ const TaskDetailPublic = () => {
               {/* Riwayat Persetujuan */}
               <SectionCard title="Riwayat Persetujuan" className="!p-0">
                 <div className="w-full overflow-x-auto">
-                  {/* min-w agar kolom tidak menekuk di mobile, biarkan scroll x */}
-                  <table className="min-w-[720px] text-sm sm:min-w-[840px]">
-                    <thead className="bg-slate-100 text-slate-800">
+                  <table className="min-w-[720px] sm:min-w-[900px] text-sm">
+                    <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
                       <tr>
                         <th className="border-b px-3 py-2 text-left">Stage</th>
                         <th className="border-b px-3 py-2 text-left">Status</th>
@@ -288,7 +286,6 @@ const TaskDetailPublic = () => {
 };
 
 export default TaskDetailPublic;
-
 
 
 // import React, { useEffect, useState, useMemo, useRef } from "react";
