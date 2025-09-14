@@ -45,7 +45,7 @@ const TaskFilter = ({
           <h3 className="text-base font-semibold text-slate-900">Filter Permohonan</h3>
         </div>
         <p className="text-xs text-slate-600">
-          Saring berdasarkan Nopel, jenis permohonan, rentang tanggal, dan urutan.
+          Saring berdasarkan nopel, jenis permohonan, rentang tanggal, dan urutan.
         </p>
       </div>
 

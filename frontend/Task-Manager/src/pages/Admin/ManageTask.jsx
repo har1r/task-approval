@@ -257,7 +257,7 @@ const ManageTasks = () => {
         />
 
         {/* Tabel */}
-        <Suspense fallback={<TableSkeleton number={10} />}>
+        <Suspense fallback={<TableSkeleton rows={10} cols={9} />}>
           <div className="relative mt-4 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
             {loading && (
               <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center rounded-xl bg-white/60 backdrop-blur-[1px]">

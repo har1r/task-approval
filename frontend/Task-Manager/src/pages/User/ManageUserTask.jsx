@@ -20,35 +20,6 @@ import { UserContext } from "../../context/UserContexts";
 
 import TableSkeleton from "../../components/Skeletons/TableSkeleton";
 
-/* ---------- Skeleton lokal (khusus tabel) ---------- */
-// const TableSkeleton = ({ rows = 6 }) => (
-//   <div className="overflow-x-auto">
-//     <table className="min-w-full text-sm">
-//       <thead className="sticky top-0 bg-slate-100 text-slate-800">
-//         <tr>
-//           {Array.from({ length: 9 }).map((_, i) => (
-//             <th key={i} className="border-b px-3 py-2 text-left">
-//               <div className="h-3 w-24 rounded bg-slate-200" />
-//             </th>
-//           ))}
-//         </tr>
-//       </thead>
-//       <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
-//         {Array.from({ length: rows }).map((_, r) => (
-//           <tr key={r} className="[&>td]:border-b">
-//             {Array.from({ length: 9 }).map((__, c) => (
-//               <td key={c} className="px-3 py-2">
-//                 <div className="h-3 w-28 rounded bg-slate-200 animate-pulse" />
-//               </td>
-//             ))}
-//           </tr>
-//         ))}
-//       </tbody>
-//     </table>
-//   </div>
-// );
-/* --------------------------------------------------- */
-
 const ManageUserTask = () => {
   const { user } = useContext(UserContext);
   const role = String(user?.role || "").toLowerCase();
@@ -61,6 +32,7 @@ const ManageUserTask = () => {
   // pagination & filter (samakan struktur ManageTasks)
   const [page, setPage] = useState(1);
   const limit = 10;
+
   const [filters, setFilters] = useState({
     nopel: "",
     title: "",
@@ -68,6 +40,14 @@ const ManageUserTask = () => {
     endDate: "",
     sortBy: "createdAt",
     order: "desc",
+  });
+  const [appliedFilters, setAppliedFilters] = useState({
+      nopel: "",
+      title: "",
+      startDate: "",
+      endDate: "",
+      sortBy: "createdAt",
+      order: "desc",
   });
 
   // selection (dibolehkan hanya untuk peneliti di handler)
@@ -79,6 +59,8 @@ const ManageUserTask = () => {
 
   // loading
   const [loading, setLoading] = useState(false);
+
+  const [filtering, setFiltering] = useState(false);
   
   // loading & abort (export)
   const [exporting, setExporting] = useState(false);
@@ -118,17 +100,21 @@ const ManageUserTask = () => {
         setLoading(false);
       }
     },
-    [page, limit, f]
+    [limit]
   );
 
   // initial & re-fetch saat page/filters berubah
   useEffect(() => {
-    fetchUserTasks(page, filters);
+    fetchUserTasks(page, appliedFilters);
     return () => {
       ctrlRef.current?.abort();
       exportCtrlRef.current?.abort();
     };
-  }, [page, filters, fetchUserTasks]);
+  }, [page, appliedFilters, fetchUserTasks]);
+
+  useEffect(() => {
+      if (!loading && filtering) setFiltering(false);
+  }, [loading, filtering]);
 
   // checkbox handlers (aktif hanya jika peneliti)
   const onToggleRow = useCallback(
@@ -153,6 +139,7 @@ const ManageUserTask = () => {
     setSelectedTaskId(id);
     setShowApprovalModal(true);
   }, []);
+
   const handleDelete = undefined; // user tidak boleh menghapus
 
   // ——— Helper: unduh blob dengan nama file yang aman ———
@@ -249,6 +236,30 @@ const ManageUserTask = () => {
     [isResearcher, selectedTaskIds]
   );
 
+  // === APPLY / RESET FILTERS ===
+    const applyFilters = useCallback(() => {
+      setFiltering(true);          // <- hanya lock form saat benar2 memfilter
+      setPage(1);                  // reset ke halaman 1
+      setAppliedFilters(filters);  // terapkan draft
+      // fetch dipicu oleh useEffect; flag 'filtering' akan dimatikan saat loading false
+    }, [filters]);
+  
+    const resetFilters = useCallback(() => {
+      setFiltering(true);
+      const reset = {
+        nopel: "",
+        title: "",
+        startDate: "",
+        endDate: "",
+        sortBy: "createdAt",
+        order: "desc",
+      };
+      setFilters(reset);           // reset draft di form
+      setAppliedFilters(reset);    // terapkan reset sebagai applied
+      setPage(1);
+      // fetch dipicu oleh useEffect
+    }, []);
+
   return (
     <DashboardLayout activeMenu="Manage Tasks">
       <div className="mt-5">
@@ -256,23 +267,9 @@ const ManageUserTask = () => {
         <TaskFilter
           filters={filters}
           setFilters={setFilters}
-          loading={loading}
-          onFilterSubmit={() => {
-            setPage(1);
-            fetchUserTasks(1, filters);
-          }}
-          onFilterReset={() => {
-            const reset = {
-              nopel: "",
-              title: "",
-              startDate: "",
-              endDate: "",
-              order: "desc",
-            };
-            setFilters(reset);
-            setPage(1);
-            fetchUserTasks(1, reset);
-          }}
+          loading={filtering}
+          onFilterSubmit={applyFilters}
+          onFilterReset={resetFilters}
         />
 
         {/* Tabel */}
@@ -294,7 +291,6 @@ const ManageUserTask = () => {
                   openApprovalModal={openApprovalModal}
                   page={page}
                   limit={limit}
-                  // === Export props (aktif; dibatasi role pada handler) ===
                   onExport={handleExport}
                   exporting={exporting}
                   showExportButton={true}
@@ -323,7 +319,7 @@ const ManageUserTask = () => {
             taskId={selectedTaskId}
             onClose={() => setShowApprovalModal(false)}
             onSuccess={() => {
-              fetchUserTasks(page, filters);
+              fetchUserTasks(page, appliedFilters);
               setShowApprovalModal(false);
             }}
           />
