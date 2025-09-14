@@ -138,7 +138,7 @@ function TaskTable({
 
                 <td className="border-b px-3 py-2 text-center">
                   <span className="px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
-                    {task?.currentStage ?? "-"}
+                    {task?.currentStage ?? "Selesai"}
                   </span>
                 </td>
 

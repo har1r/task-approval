@@ -21,7 +21,7 @@ const InfoRow = ({ label, value }) => (
       grid
       grid-cols-[fit-content(16ch)_minmax(0,1fr)]
       sm:grid-cols-[fit-content(17ch)_minmax(0,1fr)]
-      md:grid-cols-[fit-content(1ch)_minmax(0,1fr)]
+      md:grid-cols-[fit-content(18ch)_minmax(0,1fr)]
       gap-x-2 items-start text-sm
     "
   >
