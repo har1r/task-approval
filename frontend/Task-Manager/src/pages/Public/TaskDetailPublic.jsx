@@ -70,9 +70,9 @@ const InfoRow = ({ label, children }) => (
   </div>
 );
 
-/* SectionCard: patuh container, tapi tidak mematikan scroll anak */
+/* SectionCard: patuh container (tidak meluber), tapi anak tetap bisa overflow-x */
 const SectionCard = ({ title, children, className = "" }) => (
-  <section className={`w-full max-w-full rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
+  <section className={`w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
     {title ? (
       <header className="border-b border-slate-200 px-4 py-3 sm:px-5">
         <h2 className="text-base font-semibold text-slate-900">{title}</h2>
@@ -142,7 +142,6 @@ const TaskDetailPublic = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 py-6 px-3 sm:py-10 sm:px-4">
-      {/* container */}
       <div className="mx-auto w-full max-w-5xl space-y-6">
         {/* Header */}
         <div className="w-full max-w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
@@ -236,9 +235,9 @@ const TaskDetailPublic = () => {
                 )}
               </SectionCard>
 
+              {/* Hanya tabel yang bisa scroll ke kanan */}
               <SectionCard title="Riwayat Persetujuan" className="!p-0">
-                {/* wrapper tabel: scroll X, diratakan ke tepi agar nyaman di mobile */}
-                <div className="-mx-4 overflow-x-auto px-4 sm:-mx-5 sm:px-5">
+                <div className="w-full overflow-x-auto">
                   <table className="min-w-[720px] sm:min-w-[900px] text-sm">
                     <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
                       <tr>
@@ -284,7 +283,6 @@ const TaskDetailPublic = () => {
 };
 
 export default TaskDetailPublic;
-
 
 
 // import React, { useEffect, useState, useMemo, useRef } from "react";
