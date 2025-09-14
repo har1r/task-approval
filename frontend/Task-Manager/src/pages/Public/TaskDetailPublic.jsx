@@ -236,44 +236,46 @@ const TaskDetailPublic = () => {
               </SectionCard>
 
               {/* Hanya tabel yang bisa scroll ke kanan */}
-              <SectionCard title="Riwayat Persetujuan" className="!p-0">
-                <div className="w-full overflow-x-auto">
-                  <table className="min-w-[720px] sm:min-w-[900px] text-sm">
-                    <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
-                      <tr>
-                        <th className="border-b px-3 py-2 text-left">Stage</th>
-                        <th className="border-b px-3 py-2 text-left">Status</th>
-                        <th className="border-b px-3 py-2 text-left">Waktu</th>
-                        <th className="border-b px-3 py-2 text-left">Catatan</th>
-                      </tr>
-                    </thead>
-                    <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
-                      {approvals.length > 0 ? (
-                        approvals.map((a, idx) => (
-                          <tr key={idx} className="hover:bg-indigo-50/40">
-                            <td className="border-b px-3 py-2">
-                              {stageLabel[a.stage] || formatTitle(a.stage)}
-                            </td>
-                            <td className="border-b px-3 py-2">
-                              <StatusChip status={a.status} />
-                            </td>
-                            <td className="border-b px-3 py-2">
-                              {a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}
-                            </td>
-                            <td className="border-b px-3 py-2">{a.note || "-"}</td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={4} className="py-4 text-center italic text-slate-500">
-                            Belum ada data approval.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </SectionCard>
+             <SectionCard title="Riwayat Persetujuan" className="!p-0">
+  {/* Wrapper scroll hanya tabel */}
+  <div className="w-full overflow-x-auto">
+    <table className="w-full text-sm border-collapse">
+      <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
+        <tr>
+          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Stage</th>
+          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Status</th>
+          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Waktu</th>
+          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Catatan</th>
+        </tr>
+      </thead>
+      <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
+        {approvals.length > 0 ? (
+          approvals.map((a, idx) => (
+            <tr key={idx} className="hover:bg-indigo-50/40">
+              <td className="border-b px-3 py-2">
+                {stageLabel[a.stage] || formatTitle(a.stage)}
+              </td>
+              <td className="border-b px-3 py-2">
+                <StatusChip status={a.status} />
+              </td>
+              <td className="border-b px-3 py-2">
+                {a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}
+              </td>
+              <td className="border-b px-3 py-2">{a.note || "-"}</td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={4} className="py-4 text-center italic text-slate-500">
+              Belum ada data approval.
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</SectionCard>
+
             </div>
           </div>
         </section>
