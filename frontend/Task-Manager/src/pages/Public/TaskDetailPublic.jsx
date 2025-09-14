@@ -10,19 +10,7 @@ import LoadingSpinner from "../../components/ui/LoadingSpinner";
 const formatTitle = (str = "") =>
   String(str).replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
-const formatDateTimeId = (value) => {
-  if (!value) return "-";
-  const date = value instanceof Date ? value : new Date(value);
-  return new Intl.DateTimeFormat("id-ID", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Jakarta",
-  }).format(date);
-};
+const DF_ID = new Intl.DateTimeFormat("id-ID");
 
 const stageLabel = {
   diinput: "Diinput",
@@ -242,7 +230,7 @@ const TaskDetailPublic = () => {
                   <tr key={idx} className="transition-colors hover:bg-indigo-50/40">
                     <td className="border-b px-3 py-2">{stageLabel[a.stage] || formatTitle(a.stage)}</td>
                     <td className="border-b px-3 py-2"><StatusChip status={a.status} /></td>
-                    <td className="border-b px-3 py-2">{a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}</td>
+                    <td className="border-b px-3 py-2">{a.approvedAt ? DF_ID(a.approvedAt) : "-"}</td>
                     <td className="border-b px-3 py-2">{a.note || "-"}</td>
                   </tr>
                 ))
