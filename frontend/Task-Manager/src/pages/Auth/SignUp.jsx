@@ -196,7 +196,7 @@ const SignUp = () => {
               placeholder="Token admin"
               autoComplete="off"
               value={adminInviteToken}
-              onChange={setAdminInviteToken}
+              onChange={(e) => setAdminInviteToken(e.target.value)}
             />
           </div>
 
