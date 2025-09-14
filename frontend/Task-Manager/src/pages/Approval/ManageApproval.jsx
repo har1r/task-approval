@@ -15,25 +15,24 @@ import { formatDateId } from "../../utils/formatDateId";
 /* =========================
    InfoRow — SELALU 2 KOLOM
    ========================= */
-const InfoRow = memo(({ label, value }) => (
+const InfoRow = ({ label, children }) => (
   <div
     className="
-      grid grid-cols-[18ch_minmax(0,1fr)] gap-x-3
-      items-start leading-6
+      grid
+      grid-cols-[fit-content(16ch)_minmax(0,1fr)]
+      sm:grid-cols-[fit-content(17ch)_minmax(0,1fr)]
+      md:grid-cols-[fit-content(18ch)_minmax(0,1fr)]
+      gap-x-2 items-start text-sm
     "
   >
-    {/* Label + ":" nempel rapat */}
-    <span className="font-medium text-slate-700">
+    <span className="font-medium text-slate-700 whitespace-normal break-words">
       {label}
     </span>
-
-    {/* Nilai: aman di layar kecil, tidak keluar kontainer */}
-    <span className="text-slate-900 before:content-[':'] before:mr-1 before:text-slate-400 min-w-0 break-all sm:break-words">
-      {value ?? "-"}
+    <span className="text-slate-900 before:content-[':'] before:mr-1 before:text-slate-400 min-w-0 break-words">
+      {children ?? "-"}
     </span>
   </div>
-));
-InfoRow.displayName = "InfoRow";
+);
 
 /* Tombol aksi — full width di mobile */
 const ActionButton = memo(

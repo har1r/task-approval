@@ -164,7 +164,7 @@ const TaskDetailPublic = () => {
                   </div>
                 </div>
                 <h1 className="truncate text-lg font-semibold text-slate-900">
-                  Detail Permohonan — <span className="capitalize">{formatTitle(title)}</span>
+                  Detail Permohonan
                 </h1>
               </div>
 
