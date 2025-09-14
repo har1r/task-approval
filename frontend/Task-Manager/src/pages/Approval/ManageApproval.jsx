@@ -15,13 +15,13 @@ import { formatDateId } from "../../utils/formatDateId";
 /* =========================
    InfoRow — SELALU 2 KOLOM
    ========================= */
-const InfoRow = ({ label, children }) => (
+const InfoRow = ({ label, value }) => (
   <div
     className="
       grid
       grid-cols-[fit-content(16ch)_minmax(0,1fr)]
       sm:grid-cols-[fit-content(17ch)_minmax(0,1fr)]
-      md:grid-cols-[fit-content(18ch)_minmax(0,1fr)]
+      md:grid-cols-[fit-content(1ch)_minmax(0,1fr)]
       gap-x-2 items-start text-sm
     "
   >
@@ -29,7 +29,7 @@ const InfoRow = ({ label, children }) => (
       {label}
     </span>
     <span className="text-slate-900 before:content-[':'] before:mr-1 before:text-slate-400 min-w-0 break-words">
-      {children ?? "-"}
+      {value ?? "-"}
     </span>
   </div>
 );
