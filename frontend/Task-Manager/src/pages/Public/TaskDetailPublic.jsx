@@ -6,7 +6,7 @@ import TaskStageProgress from "../../components/cards/TaskStageProgress";
 import { formatDateId } from "../../utils/formatDateId";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
 
-/* ----------------------------- Helpers ----------------------------- */
+// --- helpers ---
 const formatTitle = (str = "") =>
   String(str).replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
@@ -66,23 +66,21 @@ const InfoRow = ({ label, children }) => (
   <div className="grid grid-cols-[140px_1ch_1fr] gap-x-2 text-sm">
     <span className="font-medium text-slate-700">{label}</span>
     <span className="text-slate-400">:</span>
-    <span className="break-words text-slate-900">{children ?? "-"}</span>
+    <span className="text-slate-900 break-words">{children ?? "-"}</span>
   </div>
 );
 
-/* SectionCard: patuh container (tidak meluber), tapi anak tetap bisa overflow-x */
 const SectionCard = ({ title, children, className = "" }) => (
-  <section className={`w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
+  <section className={`rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
     {title ? (
-      <header className="border-b border-slate-200 px-4 py-3 sm:px-5">
+      <header className="border-b border-slate-200 px-5 py-3">
         <h2 className="text-base font-semibold text-slate-900">{title}</h2>
       </header>
     ) : null}
-    <div className="p-4 sm:p-5">{children}</div>
+    <div className="p-5">{children}</div>
   </section>
 );
 
-/* --------------------------- Main Page ----------------------------- */
 const TaskDetailPublic = () => {
   const { id } = useParams();
   const [task, setTask] = useState(null);
@@ -104,7 +102,7 @@ const TaskDetailPublic = () => {
       } catch (error) {
         if (error?.name !== "CanceledError" && error?.code !== "ERR_CANCELED") {
           console.error("Gagal mengambil data task:", error);
-          setTask(null);
+          setTask(null); // ✅ perbaikan
         }
       } finally {
         setLoading(false);
@@ -141,15 +139,15 @@ const TaskDetailPublic = () => {
   const { mainData = {}, additionalData = [], title, createdAt, currentStage } = task;
 
   return (
-    <div className="min-h-screen bg-slate-50 py-6 px-3 sm:py-10 sm:px-4">
+    <div className="min-h-screen bg-slate-50 py-10 px-4">
       <div className="mx-auto w-full max-w-5xl space-y-6">
         {/* Header */}
-        <div className="w-full max-w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <div className="relative">
-                  <div className="absolute inset-0 rounded-lg bg-indigo-400/30 opacity-60 blur" />
+                  <div className="absolute inset-0 rounded-lg bg-indigo-400/30 blur opacity-60" />
                   <div className="relative grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-500 text-white shadow-sm ring-1 ring-white/10">
                     <span className="text-[14px] font-extrabold">P</span>
                   </div>
@@ -167,7 +165,7 @@ const TaskDetailPublic = () => {
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
                 <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                  <path d="M12 2 2 7l10 5 10-5-10-5zm0 7L2 14l10 5 10-5-10-5z" />
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
                 </svg>
                 Tahap: {stageLabel[String(currentStage)?.toLowerCase()] || formatTitle(currentStage)}
               </span>
@@ -175,16 +173,17 @@ const TaskDetailPublic = () => {
           </div>
         </div>
 
-        {/* Progress + Content */}
-        <section className="w-full max-w-full rounded-2xl border border-slate-200 bg-white shadow-sm">
-          {/* Mobile progress */}
-          <div className="block border-b border-slate-200 p-4 sm:hidden">
-            <TaskStageProgress task={task} orientation="horizontal" />
-          </div>
-
-          <div className="grid gap-4 p-4 md:grid-cols-[auto_1fr] md:items-start md:gap-6 md:p-5">
-            {/* Desktop progress */}
-            <aside className="hidden md:flex md:justify-end md:self-stretch md:pr-4 md:border-r md:border-slate-200">
+        {/* Kartu besar: progress kiri (w-fit + divider), konten kanan mepet */}
+        <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="grid gap-4 p-4 md:grid-cols-[auto_1fr] md:gap-6 md:p-5 md:items-stretch">
+            {/* Progress column */}
+            <aside
+              className="
+                flex justify-center md:justify-end md:self-stretch md:pr-4
+                md:border-r md:border-slate-200
+              "
+              aria-label="Progress Tahapan"
+            >
               <div className="w-fit">
                 <TaskStageProgress task={task} orientation="vertical" />
               </div>
@@ -192,7 +191,7 @@ const TaskDetailPublic = () => {
 
             {/* Right column */}
             <div className="space-y-6">
-              <SectionCard title="Data Subjek Pajak Baru">
+              <SectionCard title="Data Subjek Pajak Baru" className="!mt-0">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div className="space-y-2">
                     <InfoRow label="NOPEL">{mainData.nopel}</InfoRow>
@@ -221,10 +220,10 @@ const TaskDetailPublic = () => {
                           <InfoRow label="Nama Baru">{item.newName}</InfoRow>
                           <InfoRow label="Nomor Sertifikat">{item.certificate || "-"}</InfoRow>
                           <InfoRow label="Luas Tanah">
-                            {item.landWide ? `${item.landWide} m²` : "-"}
+                            {item.landWide != null && item.landWide !== "" ? `${item.landWide} m²` : "-"}
                           </InfoRow>
                           <InfoRow label="Luas Bangunan">
-                            {item.buildingWide ? `${item.buildingWide} m²` : "-"}
+                            {item.buildingWide != null && item.buildingWide !== "" ? `${item.buildingWide} m²` : "-"}
                           </InfoRow>
                         </div>
                       </div>
@@ -235,47 +234,44 @@ const TaskDetailPublic = () => {
                 )}
               </SectionCard>
 
-              {/* Hanya tabel yang bisa scroll ke kanan */}
-             <SectionCard title="Riwayat Persetujuan" className="!p-0">
-  {/* Wrapper scroll hanya tabel */}
-  <div className="w-full overflow-x-auto">
-    <table className="w-full text-sm border-collapse">
-      <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
-        <tr>
-          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Tahapan</th>
-          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Status</th>
-          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Waktu</th>
-          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Catatan</th>
-        </tr>
-      </thead>
-      <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
-        {approvals.length > 0 ? (
-          approvals.map((a, idx) => (
-            <tr key={idx} className="hover:bg-indigo-50/40">
-              <td className="border-b px-3 py-2">
-                {stageLabel[a.stage] || formatTitle(a.stage)}
-              </td>
-              <td className="border-b px-3 py-2">
-                <StatusChip status={a.status} />
-              </td>
-              <td className="border-b px-3 py-2">
-                {a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}
-              </td>
-              <td className="border-b px-3 py-2">{a.note || "-"}</td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan={4} className="py-4 text-center italic text-slate-500">
-              Belum ada data approval.
-            </td>
-          </tr>
-        )}
-      </tbody>
-    </table>
-  </div>
-</SectionCard>
-
+              <SectionCard title="Riwayat Persetujuan" className="!p-0">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full text-sm">
+                    <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
+                      <tr>
+                        <th className="border-b px-3 py-2 text-left">Stage</th>
+                        <th className="border-b px-3 py-2 text-left">Status</th>
+                        <th className="border-b px-3 py-2 text-left">Waktu</th>
+                        <th className="border-b px-3 py-2 text-left">Catatan</th>
+                      </tr>
+                    </thead>
+                    <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
+                      {approvals.length > 0 ? (
+                        approvals.map((a, idx) => (
+                          <tr key={idx} className="hover:bg-indigo-50/40">
+                            <td className="border-b px-3 py-2">
+                              {stageLabel[a.stage] || formatTitle(a.stage)}
+                            </td>
+                            <td className="border-b px-3 py-2">
+                              <StatusChip status={a.status} />
+                            </td>
+                            <td className="border-b px-3 py-2">
+                              {a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}
+                            </td>
+                            <td className="border-b px-3 py-2">{a.note || "-"}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={4} className="py-4 text-center italic text-slate-500">
+                            Belum ada data approval.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </SectionCard>
             </div>
           </div>
         </section>
