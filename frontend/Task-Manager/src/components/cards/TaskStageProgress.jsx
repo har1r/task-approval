@@ -210,192 +210,169 @@ export default function TaskStageProgress({
       </div>
     );
   }
-  // ====== VERTICAL (baru) ======
-  return (
-    <div
-      role="list"
-      aria-label="Progress tahapan (vertikal)"
-      className="relative"
-    >
-      <ol className="space-y-4">
-        {steps.map((stage, i) => {
-          const isRejected = i === rejectedIdx;
-          const isCurrent = i === activeIdx && !isRejected;
-          const isCompleted = i <= completedIdx;
 
-          // konektor hijau (logika)
-          const topGreen = i > 0 && i <= limitIdx; // dari atas ke tengah
-          const bottomGreen = i < limitIdx; // dari tengah ke bawah
+// ====== VERTICAL (baru, diperbaiki) ======
+return (
+  <div role="list" aria-label="Progress tahapan (vertikal)" className="relative">
+    <ol className="space-y-5">
+      {steps.map((stage, i) => {
+        const isRejected  = i === rejectedIdx;
+        const isCurrent   = i === activeIdx && !isRejected;
+        const isCompleted = i <= completedIdx;
 
-          const dotBorder = isRejected
-            ? "border-rose-500"
-            : isCompleted
-            ? "border-emerald-500"
-            : isCurrent
-            ? "border-yellow-300"
-            : "border-slate-300";
+        const topGreen    = i > 0 && i <= limitIdx; // atas -> tengah
+        const bottomGreen = i < limitIdx;           // tengah -> bawah
 
-          const numberColor = isRejected
-            ? "text-rose-600"
-            : isCompleted
-            ? "text-emerald-600"
-            : isCurrent
-            ? "text-yellow-600"
-            : "text-slate-400";
+        const dotBorder = isRejected
+          ? "border-rose-500"
+          : isCompleted
+          ? "border-emerald-500"
+          : isCurrent
+          ? "border-yellow-300"
+          : "border-slate-300";
 
-          return (
-            <li key={stage} className="relative pl-10" role="listitem">
-              {/* Konektor ABU-ABU (selalu ada jika bukan ujung) */}
-              {/* Top -> Center */}
-              {i > 0 && (
-                <span
-                  aria-hidden
-                  className="absolute left-5 w-0.5 bg-slate-300 rounded"
-                  style={{
-                    top: 0,
-                    height: "50%",
-                    transform: "translateX(-50%)",
-                  }}
-                />
-              )}
-              {/* Center -> Bottom */}
-              {i < steps.length - 1 && (
-                <span
-                  aria-hidden
-                  className="absolute left-5 w-0.5 bg-slate-300 rounded"
-                  style={{
-                    bottom: 0,
-                    height: "50%",
-                    transform: "translateX(-50%)",
-                  }}
-                />
-              )}
+        const numberColor = isRejected
+          ? "text-rose-600"
+          : isCompleted
+          ? "text-emerald-600"
+          : isCurrent
+          ? "text-yellow-600"
+          : "text-slate-400";
 
-              {/* Overlay HIJAU (progress) */}
-              {/* Top -> Center (hijau) */}
-              {topGreen && (
-                <span
-                  aria-hidden
-                  className="absolute left-5 w-0.5 bg-emerald-500 rounded"
-                  style={{
-                    top: 0,
-                    height: "50%",
-                    transform: "translateX(-50%)",
-                  }}
-                />
-              )}
-              {/* Center -> Bottom (hijau) */}
-              {bottomGreen && (
-                <span
-                  aria-hidden
-                  className="absolute left-5 w-0.5 bg-emerald-500 rounded"
-                  style={{
-                    bottom: 0,
-                    height: "50%",
-                    transform: "translateX(-50%)",
-                  }}
-                />
-              )}
-
-              {/* Bullet */}
+        return (
+          <li key={stage} className="relative pl-12" role="listitem">
+            {/* RAIL ABU-ABU (baseline) */}
+            {/* atas -> tengah (overlap +8px supaya tak ada celah) */}
+            {i > 0 && (
               <span
-                className={[
-                  "relative z-10 grid h-8 w-8 place-items-center rounded-full border-4 bg-white",
-                  dotBorder,
-                  isCompleted ? "shadow-emerald-200 shadow-sm" : "",
-                  isCurrent ? "ring-4 ring-yellow-200/60" : "",
-                  "absolute left-5 -translate-x-1/2",
-                ].join(" ")}
-                title={toLabel(stage)}
-                aria-current={isCurrent ? "step" : undefined}
-              >
-                <span
-                  className={`text-[11px] font-bold leading-none ${numberColor}`}
-                >
-                  {i + 1}
-                </span>
+                aria-hidden
+                className="absolute left-6 w-0.5 bg-slate-300 rounded"
+                style={{
+                  top: "-8px",
+                  height: "calc(50% + 8px)",
+                  transform: "translateX(-50%)",
+                }}
+              />
+            )}
+            {/* tengah -> bawah */}
+            {i < steps.length - 1 && (
+              <span
+                aria-hidden
+                className="absolute left-6 w-0.5 bg-slate-300 rounded"
+                style={{
+                  bottom: "-8px",
+                  height: "calc(50% + 8px)",
+                  transform: "translateX(-50%)",
+                }}
+              />
+            )}
 
-                {/* Completed badge */}
-                {isCompleted && !isRejected && (
-                  <span
-                    className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-white ring-2 ring-white"
-                    aria-hidden
-                    title="Selesai"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-2.5 w-2.5"
-                      fill="currentColor"
-                    >
-                      <path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z" />
-                    </svg>
-                  </span>
-                )}
+            {/* RAIL HIJAU (progress overlay) */}
+            {topGreen && (
+              <span
+                aria-hidden
+                className="absolute left-6 w-0.5 bg-emerald-500 rounded"
+                style={{
+                  top: "-8px",
+                  height: "calc(50% + 8px)",
+                  transform: "translateX(-50%)",
+                }}
+              />
+            )}
+            {bottomGreen && (
+              <span
+                aria-hidden
+                className="absolute left-6 w-0.5 bg-emerald-500 rounded"
+                style={{
+                  bottom: "-8px",
+                  height: "calc(50% + 8px)",
+                  transform: "translateX(-50%)",
+                }}
+              />
+            )}
 
-                {/* Current badge */}
-                {isCurrent && !isRejected && (
-                  <>
-                    <span
-                      className="absolute -right-1 -top-1 h-4 w-4 rounded-full bg-yellow-300/70 animate-ping"
-                      aria-hidden
-                    />
-                    <span
-                      className="absolute -right-1 -top-1 z-10 grid h-4 w-4 place-items-center rounded-full bg-yellow-300 text-white ring-2 ring-white"
-                      aria-hidden
-                      title="Menunggu / Diproses"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        className="h-2.5 w-2.5"
-                        fill="currentColor"
-                      >
-                        <path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.26 8.26 0 0 1 12 20.25Zm.75-13.5h-1.5v6l5 3 .75-1.23-4.25-2.55Z" />
-                      </svg>
-                    </span>
-                  </>
-                )}
-
-                {/* Rejected badge */}
-                {isRejected && (
-                  <span
-                    className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-white ring-2 ring-white"
-                    aria-hidden
-                    title="Ditolak"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-2.5 w-2.5"
-                      fill="currentColor"
-                    >
-                      <path d="M18.3 5.71 12 12.01 5.71 5.71 4.3 7.12l6.29 6.28-6.3 6.3 1.42 1.41 6.3-6.3 6.29 6.3 1.41-1.41-6.29-6.3 6.29-6.29z" />
-                    </svg>
-                  </span>
-                )}
+            {/* BULLET */}
+            <span
+              className={[
+                "absolute left-6 -translate-x-1/2",
+                "relative z-10 grid h-9 w-9 place-items-center rounded-full border-4 bg-white",
+                dotBorder,
+                isCompleted ? "shadow-emerald-200 shadow-sm" : "",
+                isCurrent ? "ring-4 ring-yellow-200/60" : "",
+              ].join(" ")}
+              title={toLabel(stage)}
+              aria-current={isCurrent ? "step" : undefined}
+            >
+              <span className={`text-[11px] font-bold leading-none ${numberColor}`}>
+                {i + 1}
               </span>
 
-              {/* Label */}
-              <div className="ml-6">
-                <p
-                  className={[
-                    "text-sm font-semibold",
-                    isRejected
-                      ? "text-rose-600"
-                      : isCompleted
-                      ? "text-emerald-700"
-                      : isCurrent
-                      ? "text-yellow-600"
-                      : "text-slate-700",
-                  ].join(" ")}
+              {/* badges */}
+              {isCompleted && !isRejected && (
+                <span
+                  className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-white ring-2 ring-white"
+                  aria-hidden
+                  title="Selesai"
                 >
-                  {toLabel(stage)}
-                </p>
-              </div>
-            </li>
-          );
-        })}
-      </ol>
-    </div>
-  );
+                  <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="currentColor">
+                    <path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z" />
+                  </svg>
+                </span>
+              )}
+              {isCurrent && !isRejected && (
+                <>
+                  <span
+                    className="absolute -right-1 -top-1 h-4 w-4 rounded-full bg-yellow-300/70 animate-ping"
+                    aria-hidden
+                  />
+                  <span
+                    className="absolute -right-1 -top-1 z-10 grid h-4 w-4 place-items-center rounded-full bg-yellow-300 text-white ring-2 ring-white"
+                    aria-hidden
+                    title="Menunggu / Diproses"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="currentColor">
+                      <path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.26 8.26 0 0 1 12 20.25Zm.75-13.5h-1.5v6l5 3 .75-1.23-4.25-2.55Z" />
+                    </svg>
+                  </span>
+                </>
+              )}
+              {isRejected && (
+                <span
+                  className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-white ring-2 ring-white"
+                  aria-hidden
+                  title="Ditolak"
+                >
+                  <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="currentColor">
+                    <path d="M18.3 5.71 12 12.01 5.71 5.71 4.3 7.12l6.29 6.28-6.3 6.3 1.42 1.41 6.3-6.3 6.29 6.3 1.41-1.41-6.29-6.3 6.29-6.29z" />
+                  </svg>
+                </span>
+              )}
+            </span>
+
+            {/* LABEL */}
+            <div className="ml-8">
+              <p
+                className={[
+                  "text-sm font-semibold",
+                  isRejected
+                    ? "text-rose-600"
+                    : isCompleted
+                    ? "text-emerald-700"
+                    : isCurrent
+                    ? "text-yellow-600"
+                    : "text-slate-700",
+                ].join(" ")}
+              >
+                {toLabel(stage)}
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+);
+
 }
 
 // import React from "react";
