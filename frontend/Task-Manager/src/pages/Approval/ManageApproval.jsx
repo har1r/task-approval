@@ -23,7 +23,7 @@ const InfoRow = memo(({ label, value }) => (
     "
   >
     {/* Label + ":" nempel rapat */}
-    <span className="font-medium text-slate-700 after:content-[':'] after:ml-1 after:text-slate-400">
+    <span className="font-medium text-slate-700">
       {label}
     </span>
 
