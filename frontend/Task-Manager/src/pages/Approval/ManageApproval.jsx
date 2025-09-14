@@ -12,22 +12,30 @@ import { API_PATHS } from "../../utils/apiPaths";
 import { toast } from "react-toastify";
 import { formatDateId } from "../../utils/formatDateId";
 
-// Row info ringkas (tetap style lama, tapi responsif & anti overflow)
+/* =========================
+   InfoRow — SELALU 2 KOLOM
+   ========================= */
 const InfoRow = memo(({ label, value }) => (
-  <div className="grid grid-cols-1 gap-y-0.5 sm:grid-cols-[18ch_minmax(0,1fr)] sm:gap-x-3 leading-6 items-start">
-    {/* Label + ":" sebagai pseudo-element biar jaraknya rapat */}
-    <span className="font-medium text-slate-700 text-left after:content-[':'] after:ml-1 after:text-slate-400">
+  <div
+    className="
+      grid grid-cols-[18ch_minmax(0,1fr)] gap-x-3
+      items-start leading-6
+    "
+  >
+    {/* Label + ":" nempel rapat */}
+    <span className="font-medium text-slate-700 after:content-[':'] after:ml-1 after:text-slate-400">
       {label}
     </span>
-    {/* Nilai: wrap aman (mobile super-aman break-all) */}
-    <span className="text-slate-900 min-w-0 break-all sm:break-words">
+
+    {/* Nilai: aman di layar kecil, tidak keluar kontainer */}
+    <span className="text-slate-900 before:content-[':'] before:mr-1 before:text-slate-400 min-w-0 break-all sm:break-words">
       {value ?? "-"}
     </span>
   </div>
 ));
 InfoRow.displayName = "InfoRow";
 
-// Tombol aksi (approve/reject) — full width di mobile
+/* Tombol aksi — full width di mobile */
 const ActionButton = memo(
   ({ action, loadingAction, onClick, children, color = "green" }) => {
     const isLoading = loadingAction === action;

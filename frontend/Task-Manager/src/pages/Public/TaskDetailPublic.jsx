@@ -64,10 +64,10 @@ const StatusChip = ({ status }) => {
 
 const InfoRow = ({ label, children }) => (
   <div className="grid grid-cols-[140px_1fr] gap-x-2 items-baseline text-sm">
-    <span className="font-medium text-slate-700 after:content-[':'] after:ml-1 after:text-slate-400">
+    <span className="font-medium text-slate-700">
       {label}
     </span>
-    <span className="text-slate-900 before:content-[':'] before:ml-1 before:text-slate-400 break-words">{children ?? "-"}</span>
+    <span className="text-slate-900 before:content-[':'] before:mr-1 before:text-slate-400 break-words">{children ?? "-"}</span>
   </div>
 );
 
