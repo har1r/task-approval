@@ -70,11 +70,9 @@ const InfoRow = ({ label, children }) => (
   </div>
 );
 
-/* SectionCard selalu patuh container */
+/* SectionCard: patuh container, tapi tidak mematikan scroll anak */
 const SectionCard = ({ title, children, className = "" }) => (
-  <section
-    className={`w-full max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}
-  >
+  <section className={`w-full max-w-full rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
     {title ? (
       <header className="border-b border-slate-200 px-4 py-3 sm:px-5">
         <h2 className="text-base font-semibold text-slate-900">{title}</h2>
@@ -147,7 +145,7 @@ const TaskDetailPublic = () => {
       {/* container */}
       <div className="mx-auto w-full max-w-5xl space-y-6">
         {/* Header */}
-        <div className="w-full max-w-full overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <div className="w-full max-w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <div className="flex items-center gap-2">
@@ -179,7 +177,7 @@ const TaskDetailPublic = () => {
         </div>
 
         {/* Progress + Content */}
-        <section className="w-full max-w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <section className="w-full max-w-full rounded-2xl border border-slate-200 bg-white shadow-sm">
           {/* Mobile progress */}
           <div className="block border-b border-slate-200 p-4 sm:hidden">
             <TaskStageProgress task={task} orientation="horizontal" />
@@ -239,7 +237,8 @@ const TaskDetailPublic = () => {
               </SectionCard>
 
               <SectionCard title="Riwayat Persetujuan" className="!p-0">
-                <div className="w-full overflow-x-auto">
+                {/* wrapper tabel: scroll X, diratakan ke tepi agar nyaman di mobile */}
+                <div className="-mx-4 overflow-x-auto px-4 sm:-mx-5 sm:px-5">
                   <table className="min-w-[720px] sm:min-w-[900px] text-sm">
                     <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
                       <tr>
