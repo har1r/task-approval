@@ -63,7 +63,7 @@ const StatusChip = ({ status }) => {
 };
 
 const InfoRow = ({ label, children }) => (
-  <div className="grid grid-cols-[140px_1ch_1fr] gap-x-2 text-sm">
+  <div className="grid grid-cols-[120px_1ch_1fr] gap-x-2 text-sm sm:grid-cols-[140px_1ch_1fr]">
     <span className="font-medium text-slate-700">{label}</span>
     <span className="text-slate-400">:</span>
     <span className="text-slate-900 break-words">{children ?? "-"}</span>
@@ -73,11 +73,11 @@ const InfoRow = ({ label, children }) => (
 const SectionCard = ({ title, children, className = "" }) => (
   <section className={`rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
     {title ? (
-      <header className="border-b border-slate-200 px-5 py-3">
+      <header className="border-b border-slate-200 px-4 py-3 sm:px-5">
         <h2 className="text-base font-semibold text-slate-900">{title}</h2>
       </header>
     ) : null}
-    <div className="p-5">{children}</div>
+    <div className="p-4 sm:p-5">{children}</div>
   </section>
 );
 
@@ -102,7 +102,7 @@ const TaskDetailPublic = () => {
       } catch (error) {
         if (error?.name !== "CanceledError" && error?.code !== "ERR_CANCELED") {
           console.error("Gagal mengambil data task:", error);
-          setTask(null); // ✅ perbaikan
+          setTask(null);
         }
       } finally {
         setLoading(false);
@@ -139,10 +139,10 @@ const TaskDetailPublic = () => {
   const { mainData = {}, additionalData = [], title, createdAt, currentStage } = task;
 
   return (
-    <div className="min-h-screen bg-slate-50 py-10 px-4">
+    <div className="min-h-screen bg-slate-50 py-6 px-3 sm:py-10 sm:px-4">
       <div className="mx-auto w-full max-w-5xl space-y-6">
         {/* Header */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <div className="flex items-center gap-2">
@@ -152,7 +152,7 @@ const TaskDetailPublic = () => {
                     <span className="text-[14px] font-extrabold">P</span>
                   </div>
                 </div>
-                <h1 className="truncate text-lg font-semibold text-slate-900">
+                <h1 className="truncate text-base font-semibold text-slate-900 sm:text-lg">
                   Detail Permohonan — <span className="capitalize">{formatTitle(title)}</span>
                 </h1>
               </div>
@@ -173,15 +173,18 @@ const TaskDetailPublic = () => {
           </div>
         </div>
 
-        {/* Kartu besar: progress kiri (w-fit + divider), konten kanan mepet */}
+        {/* Progress + Content */}
         <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-4 p-4 md:grid-cols-[auto_1fr] md:gap-6 md:p-5 md:items-stretch">
-            {/* Progress column */}
+          {/* Progress (MOBILE) */}
+          <div className="block border-b border-slate-200 p-4 sm:hidden">
+            <TaskStageProgress task={task} orientation="horizontal" />
+          </div>
+
+          {/* Grid layout (DESKTOP) */}
+          <div className="grid gap-4 p-4 md:grid-cols-[auto_1fr] md:gap-6 md:p-5 md:items-start">
+            {/* Sidebar Progress (hidden on mobile) */}
             <aside
-              className="
-                flex justify-center md:justify-end md:self-stretch md:pr-4
-                md:border-r md:border-slate-200
-              "
+              className="hidden md:flex md:justify-end md:self-start md:pr-4 md:border-r md:border-slate-200"
               aria-label="Progress Tahapan"
             >
               <div className="w-fit">
@@ -191,6 +194,7 @@ const TaskDetailPublic = () => {
 
             {/* Right column */}
             <div className="space-y-6">
+              {/* Informasi Utama */}
               <SectionCard title="Data Subjek Pajak Baru" className="!mt-0">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <div className="space-y-2">
@@ -208,6 +212,7 @@ const TaskDetailPublic = () => {
                 </div>
               </SectionCard>
 
+              {/* Data Tambahan */}
               <SectionCard title="Data Tambahan">
                 {additionalData.length > 0 ? (
                   <div className="grid gap-4">
@@ -234,10 +239,12 @@ const TaskDetailPublic = () => {
                 )}
               </SectionCard>
 
+              {/* Riwayat Persetujuan */}
               <SectionCard title="Riwayat Persetujuan" className="!p-0">
-                <div className="overflow-x-auto">
-                  <table className="min-w-full text-sm">
-                    <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
+                <div className="w-full overflow-x-auto">
+                  {/* min-w agar kolom tidak menekuk di mobile, biarkan scroll x */}
+                  <table className="min-w-[720px] text-sm sm:min-w-[840px]">
+                    <thead className="bg-slate-100 text-slate-800">
                       <tr>
                         <th className="border-b px-3 py-2 text-left">Stage</th>
                         <th className="border-b px-3 py-2 text-left">Status</th>
@@ -281,6 +288,7 @@ const TaskDetailPublic = () => {
 };
 
 export default TaskDetailPublic;
+
 
 
 // import React, { useEffect, useState, useMemo, useRef } from "react";
