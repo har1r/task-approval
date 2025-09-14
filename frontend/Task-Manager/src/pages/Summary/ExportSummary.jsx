@@ -1,5 +1,13 @@
 // src/pages/Admin/ExportSummary.jsx
-import React, { useCallback, useEffect, useMemo, useRef, useState, memo } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  memo,
+  Suspense,
+} from "react";
 import { toast } from "react-toastify";
 
 import DashboardLayout from "../../components/layouts/DashboardLayout";
@@ -10,10 +18,10 @@ import Pagination from "../../components/ui/Pagination";
 import TableSkeleton from "../../components/Skeletons/TableSkeleton";
 
 /* ----------------------------- Helpers ----------------------------- */
-const nf = new Intl.NumberFormat("id-ID");
-
 const titleCase = (s = "") =>
-  String(s).replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  String(s)
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 const buildExportNumber = (num, year = new Date().getFullYear()) =>
   num ? `973/${num}-UPT.PD.WIL.IV/${year}` : "-";
 const onlyDigits = (v) => String(v || "").replace(/[^\d]/g, "");
@@ -37,7 +45,10 @@ const ExportSummary = () => {
   const [exportNumber, setExportNumber] = useState("");
 
   const ctrlRef = useRef(null);
-  const totalPages = Math.max(1, Math.ceil(Number(totalTasks || 0) / Number(limit || 5)));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(Number(totalTasks || 0) / Number(limit || 5))
+  );
 
   const fetchTasks = useCallback(async () => {
     ctrlRef.current?.abort();
@@ -63,7 +74,9 @@ const ExportSummary = () => {
       setTasks(Array.isArray(data.tasks) ? data.tasks : []);
     } catch (err) {
       if (err?.name !== "CanceledError" && err?.code !== "ERR_CANCELED") {
-        toast.error(err?.response?.data?.message || "Gagal mengambil data pengantar.");
+        toast.error(
+          err?.response?.data?.message || "Gagal mengambil data pengantar."
+        );
       }
     } finally {
       setLoading(false);
@@ -124,9 +137,15 @@ const ExportSummary = () => {
 
           {/* Filter Bar (server-side) */}
           <section className="rounded-2xl border border-slate-200 bg-white/90 shadow-sm backdrop-blur p-3 md:p-4">
-            <form onSubmit={onSubmit} className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-3">
+            <form
+              onSubmit={onSubmit}
+              className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-3"
+            >
               <div className="flex-1 min-w-[240px]">
-                <label htmlFor="exportNumber" className="mb-1 block text-sm font-medium text-slate-800">
+                <label
+                  htmlFor="exportNumber"
+                  className="mb-1 block text-sm font-medium text-slate-800"
+                >
                   Cari nomor pengantar
                 </label>
                 <input
@@ -158,71 +177,91 @@ const ExportSummary = () => {
           </section>
 
           {/* Table (per task) */}
-          <section className="relative mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
-            {loading && (
-              <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center rounded-xl bg-white/60 backdrop-blur-[1px]">
-                <div className="h-6 w-6 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent" />
-              </div>
-            )}
-            {loading ? (
-              <div className="p-6">
-                <TableSkeleton rows={10} cols={6} />
-              </div>
-            ) : tasks.length === 0 ? (
-              <div className="p-6">
-                <EmptyState>Tidak ada data pada filter saat ini.</EmptyState>
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-sm">
-                  <thead className="sticky top-0 bg-slate-100/80 backdrop-blur text-slate-800">
-                    <tr>
-                      <th className="border-b px-3 py-2 text-left font-semibold">No</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">NOPEL</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">NOP</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">Nama Pemohon</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">Jenis</th>
-                      <th className="border-b px-3 py-2 text-left font-semibold">No. Pengantar</th>
-                    </tr>
-                  </thead>
-                  <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
-                    {tasks.map((t, idx) => {
-                      const main = t?.mainData || {};
-                      const name = t?.additionalData?.[0]?.newName || "-";
-                      return (
-                        <tr key={t._id} className="hover:bg-indigo-50/40 transition-colors">
-                          <td className="border-b px-3 py-2">{startNo + idx + 1}</td>
-                          <td className="border-b px-3 py-2">{main?.nopel || "-"}</td>
-                          <td className="border-b px-3 py-2">{main?.nop || "-"}</td>
-                          <td className="border-b px-3 py-2">
-                            <span className="line-clamp-1" title={name}>
-                              {name}
-                            </span>
-                          </td>
-                          <td className="border-b px-3 py-2 capitalize">
-                            <span className="line-clamp-1">{titleCase(t?.title || "")}</span>
-                          </td>
-                          <td className="border-b px-3 py-2 font-medium">
-                            {buildExportNumber(t?.exportNumber, t?.exportYear)}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </section>
-
-          {/* Pagination (server-driven) */}
-          <div className="mt-4">
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-              disabled={loading}
-            />
-          </div>
+          <Suspense fallback={<TableSkeleton rows={10} cols={6}/>}>
+            <section className="relative mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
+              {loading && (
+                <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center rounded-xl bg-white/60 backdrop-blur-[1px]">
+                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent" />
+                </div>
+              )}
+              {tasks > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full text-sm">
+                    <thead className="sticky top-0 bg-slate-100/80 backdrop-blur text-slate-800">
+                      <tr>
+                        <th className="border-b px-3 py-2 text-left font-semibold">
+                          No
+                        </th>
+                        <th className="border-b px-3 py-2 text-left font-semibold">
+                          NOPEL
+                        </th>
+                        <th className="border-b px-3 py-2 text-left font-semibold">
+                          NOP
+                        </th>
+                        <th className="border-b px-3 py-2 text-left font-semibold">
+                          Nama Pemohon
+                        </th>
+                        <th className="border-b px-3 py-2 text-left font-semibold">
+                          Jenis
+                        </th>
+                        <th className="border-b px-3 py-2 text-left font-semibold">
+                          No. Pengantar
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
+                      {tasks.map((t, idx) => {
+                        const main = t?.mainData || {};
+                        const name = t?.additionalData?.[0]?.newName || "-";
+                        return (
+                          <tr
+                            key={t._id}
+                            className="hover:bg-indigo-50/40 transition-colors"
+                          >
+                            <td className="border-b px-3 py-2">
+                              {startNo + idx + 1}
+                            </td>
+                            <td className="border-b px-3 py-2">
+                              {main?.nopel || "-"}
+                            </td>
+                            <td className="border-b px-3 py-2">
+                              {main?.nop || "-"}
+                            </td>
+                            <td className="border-b px-3 py-2">
+                              <span className="line-clamp-1" title={name}>
+                                {name}
+                              </span>
+                            </td>
+                            <td className="border-b px-3 py-2 capitalize">
+                              <span className="line-clamp-1">
+                                {titleCase(t?.title || "")}
+                              </span>
+                            </td>
+                            <td className="border-b px-3 py-2 font-medium">
+                              {buildExportNumber(t?.exportNumber, t?.exportYear)}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="py-8 text-center text-sm text-slate-500">
+                  Belum ada data yang bisa dtampilkan.
+                </div>
+              )}
+            </section>
+            {/* Pagination (server-driven) */}
+            <div className="mt-4">
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                disabled={loading}
+              />
+            </div>
+          </Suspense>
         </div>
       </div>
     </DashboardLayout>
