@@ -184,7 +184,7 @@ const TaskDetailPublic = () => {
           <div className="grid gap-6 p-5 md:grid-cols-[300px_1fr] md:gap-8 md:p-6">
             {/* Sidebar Progress — CENTER terhadap kolom konten */}
             <aside className="flex justify-center md:justify-start md:self-center" aria-label="Progress Tahapan">
-              <div className="w-full max-w-[240px]">
+              <div className="w-full max-w-[100px]">
                 <TaskStageProgress task={task} orientation="vertical" />
               </div>
             </aside>
