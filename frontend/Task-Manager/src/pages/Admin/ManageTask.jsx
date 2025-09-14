@@ -267,8 +267,13 @@ const ManageTasks = () => {
         />
 
         {/* Tabel */}
-        <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-          <Suspense fallback={<TableSkeleton number={10}/>}>
+        <Suspense>
+          <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+            {loading && (
+                <div className="absolute inset-0 z-10 grid place-items-center rounded-xl bg-white/60 backdrop-blur-[1px]">
+                  <div className="h-6 w-6 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent" />
+                </div>
+            )}
             {tasks.length > 0 ? (
               <>
                 <TaskTable
@@ -297,11 +302,11 @@ const ManageTasks = () => {
               </>
             ) : (
               <div className="py-8 text-center text-sm text-slate-500">
-                Belum ada permohonan.
+                Belum ada data yang bisa dtampilkan.
               </div>
             )}
-          </Suspense>
-        </div>
+          </div>
+        </Suspense>
 
         {/* Modal Approval */}
         {showApprovalModal && (
