@@ -8,9 +8,7 @@ import LoadingSpinner from "../../components/ui/LoadingSpinner";
 
 // --- helpers ---
 const formatTitle = (str = "") =>
-  String(str)
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  String(str).replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
 const formatDateTimeId = (value) => {
   if (!value) return "-";
@@ -40,12 +38,7 @@ const StatusChip = ({ status }) => {
   if (status === "approved")
     return (
       <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
-        <svg
-          className="h-3.5 w-3.5"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          aria-hidden
-        >
+        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
           <path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z" />
         </svg>
         Disetujui
@@ -54,25 +47,15 @@ const StatusChip = ({ status }) => {
   if (status === "rejected")
     return (
       <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2 py-1 text-xs font-medium text-rose-700">
-        <svg
-          className="h-3.5 w-3.5"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          aria-hidden
-        >
+        <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
           <path d="M18.3 5.71L12 12.01l-6.29-6.3L4.3 7.12 10.59 13.4l-6.3 6.3 1.42 1.41 6.3-6.3 6.29 6.3 1.41-1.41-6.29-6.3 6.29-6.29z" />
         </svg>
         Ditolak
       </span>
     );
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-1 text-xs font-medium text-amber-300">
-      <svg
-        className="h-3.5 w-3.5"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        aria-hidden
-      >
+    <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-1 text-xs font-medium text-amber-600">
+      <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
         <path d="M12 7v5l4 2 .9-1.8-3.4-1.7V7z" />
       </svg>
       Menunggu
@@ -91,9 +74,7 @@ const InfoRow = ({ label, children }) => (
 
 // Kartu seksi agar konsisten
 const SectionCard = ({ title, children, className = "" }) => (
-  <section
-    className={`rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}
-  >
+  <section className={`rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
     {title ? (
       <header className="border-b border-slate-200 px-5 py-3">
         <h2 className="text-base font-semibold text-slate-900">{title}</h2>
@@ -117,10 +98,9 @@ const TaskDetailPublic = () => {
       abortRef.current = ctrl;
 
       try {
-        const response = await axiosInstance.get(
-          API_PATHS.TASK.GET_TASK_BY_ID(id),
-          { signal: ctrl.signal }
-        );
+        const response = await axiosInstance.get(API_PATHS.TASK.GET_TASK_BY_ID(id), {
+          signal: ctrl.signal,
+        });
         setTask(response.data || null);
       } catch (error) {
         if (error?.name !== "CanceledError" && error?.code !== "ERR_CANCELED") {
@@ -152,9 +132,7 @@ const TaskDetailPublic = () => {
     return (
       <div className="min-h-screen bg-slate-50 py-12 px-4">
         <div className="mx-auto max-w-2xl rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-          <h2 className="text-xl font-semibold text-slate-900 mb-2">
-            Task tidak ditemukan
-          </h2>
+          <h2 className="mb-2 text-xl font-semibold text-slate-900">Task tidak ditemukan</h2>
           <p className="text-sm text-slate-600">
             Pastikan tautan yang Anda buka benar atau hubungi admin.
           </p>
@@ -163,13 +141,7 @@ const TaskDetailPublic = () => {
     );
   }
 
-  const {
-    mainData = {},
-    additionalData = [],
-    title,
-    createdAt,
-    currentStage,
-  } = task;
+  const { mainData = {}, additionalData = [], title, createdAt, currentStage } = task;
 
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4">
@@ -187,47 +159,36 @@ const TaskDetailPublic = () => {
                   </div>
                 </div>
                 <h1 className="truncate text-lg font-semibold text-slate-900">
-                  Detail Permohonan —{" "}
-                  <span className="capitalize">{formatTitle(title)}</span>
+                  Detail Permohonan — <span className="capitalize">{formatTitle(title)}</span>
                 </h1>
               </div>
 
               <p className="mt-1 text-xs text-slate-500">
-                Dibuat:{" "}
-                <span className="font-medium text-slate-700">
-                  {formatDateId(createdAt)}
-                </span>
+                Dibuat: <span className="font-medium text-slate-700">{formatDateId(createdAt)}</span>
               </p>
             </div>
 
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
-                <svg
-                  className="h-3.5 w-3.5"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden
-                >
+                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                   <path d="M12 2L2 7l10 5 10-5-10-5zm0 7l-10 5 10 5 10-5-10-5z" />
                 </svg>
-                Tahap:{" "}
-                {stageLabel[String(currentStage)?.toLowerCase()] ||
-                  formatTitle(currentStage)}
+                Tahap: {stageLabel[String(currentStage)?.toLowerCase()] || formatTitle(currentStage)}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Kartu besar: kiri progress (center), kanan seluruh konten */}
+        {/* Kartu besar: kiri progress (center & sticky), kanan seluruh konten */}
         <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="grid gap-6 p-5 md:grid-cols-[300px_1fr] md:gap-8 md:p-6">
-            {/* Sidebar Progress — center secara vertikal & sticky */}
+            {/* Sidebar Progress — center vertikal & sticky saat desktop, centered di mobile */}
             <aside
               className="
-              order-1
-              md:order-none
-              md:sticky md:top-1/2 md:-translate-y-1/2
-            "
+                order-1
+                md:order-none
+                md:sticky md:top-1/2 md:-translate-y-1/2
+              "
               aria-label="Progress Tahapan"
             >
               <div className="mx-auto w-full max-w-[260px]">
@@ -240,19 +201,19 @@ const TaskDetailPublic = () => {
               {/* Informasi Utama */}
               <SectionCard title="Data Subjek Pajak Baru" className="!mt-0">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  {/* Kolom kiri */}
                   <div className="space-y-2">
                     <InfoRow label="NOPEL">{mainData.nopel}</InfoRow>
                     <InfoRow label="NOP">{mainData.nop}</InfoRow>
                     <InfoRow label="Nama Lama">{mainData.oldName}</InfoRow>
                     <InfoRow label="Alamat">{mainData.address}</InfoRow>
                   </div>
+                  {/* Kolom kanan */}
                   <div className="space-y-2">
                     <InfoRow label="Kelurahan">{mainData.village}</InfoRow>
                     <InfoRow label="Kecamatan">{mainData.subdistrict}</InfoRow>
                     <InfoRow label="Permohonan">{formatTitle(title)}</InfoRow>
-                    <InfoRow label="Tanggal Dibuat">
-                      {formatDateId(createdAt)}
-                    </InfoRow>
+                    <InfoRow label="Tanggal Dibuat">{formatDateId(createdAt)}</InfoRow>
                   </div>
                 </div>
               </SectionCard>
@@ -268,28 +229,19 @@ const TaskDetailPublic = () => {
                       >
                         <div className="grid gap-2 sm:grid-cols-2">
                           <InfoRow label="Nama Baru">{item.newName}</InfoRow>
-                          <InfoRow label="Nomor Sertifikat">
-                            {item.certificate || "-"}
-                          </InfoRow>
+                          <InfoRow label="Nomor Sertifikat">{item.certificate || "-"}</InfoRow>
                           <InfoRow label="Luas Tanah">
-                            {item.landWide != null && item.landWide !== ""
-                              ? `${item.landWide} m²`
-                              : "-"}
+                            {item.landWide != null && item.landWide !== "" ? `${item.landWide} m²` : "-"}
                           </InfoRow>
                           <InfoRow label="Luas Bangunan">
-                            {item.buildingWide != null &&
-                            item.buildingWide !== ""
-                              ? `${item.buildingWide} m²`
-                              : "-"}
+                            {item.buildingWide != null && item.buildingWide !== "" ? `${item.buildingWide} m²` : "-"}
                           </InfoRow>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="italic text-slate-500">
-                    Tidak ada data tambahan.
-                  </p>
+                  <p className="italic text-slate-500">Tidak ada data tambahan.</p>
                 )}
               </SectionCard>
 
@@ -302,9 +254,7 @@ const TaskDetailPublic = () => {
                         <th className="border-b px-3 py-2 text-left">Stage</th>
                         <th className="border-b px-3 py-2 text-left">Status</th>
                         <th className="border-b px-3 py-2 text-left">Waktu</th>
-                        <th className="border-b px-3 py-2 text-left">
-                          Catatan
-                        </th>
+                        <th className="border-b px-3 py-2 text-left">Catatan</th>
                       </tr>
                     </thead>
                     <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
@@ -318,21 +268,14 @@ const TaskDetailPublic = () => {
                               <StatusChip status={a.status} />
                             </td>
                             <td className="border-b px-3 py-2">
-                              {a.approvedAt
-                                ? formatDateTimeId(a.approvedAt)
-                                : "-"}
+                              {a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}
                             </td>
-                            <td className="border-b px-3 py-2">
-                              {a.note || "-"}
-                            </td>
+                            <td className="border-b px-3 py-2">{a.note || "-"}</td>
                           </tr>
                         ))
                       ) : (
                         <tr>
-                          <td
-                            colSpan={4}
-                            className="py-4 text-center italic text-slate-500"
-                          >
+                          <td colSpan={4} className="py-4 text-center italic text-slate-500">
                             Belum ada data approval.
                           </td>
                         </tr>
