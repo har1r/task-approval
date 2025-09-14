@@ -179,19 +179,12 @@ const TaskDetailPublic = () => {
           </div>
         </div>
 
-        {/* Kartu besar: kiri progress (center & sticky), kanan seluruh konten */}
+        {/* Kartu besar: kiri progress (center terhadap konten), kanan seluruh konten */}
         <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="grid gap-6 p-5 md:grid-cols-[300px_1fr] md:gap-8 md:p-6">
-            {/* Sidebar Progress — center vertikal & sticky saat desktop, centered di mobile */}
-            <aside
-              className="
-                order-1
-                md:order-none
-                md:sticky md:top-1/2 md:-translate-y-1/2
-              "
-              aria-label="Progress Tahapan"
-            >
-              <div className="mx-auto w-full max-w-[260px]">
+            {/* Sidebar Progress — CENTER terhadap kolom konten */}
+            <aside className="flex justify-center md:justify-start md:self-center" aria-label="Progress Tahapan">
+              <div className="w-full max-w-[240px]">
                 <TaskStageProgress task={task} orientation="vertical" />
               </div>
             </aside>
@@ -293,6 +286,7 @@ const TaskDetailPublic = () => {
 };
 
 export default TaskDetailPublic;
+
 
 // import React, { useEffect, useState, useMemo, useRef } from "react";
 // import { useParams } from "react-router-dom";
