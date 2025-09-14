@@ -242,7 +242,7 @@ const TaskDetailPublic = () => {
     <table className="w-full text-sm border-collapse">
       <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
         <tr>
-          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Stage</th>
+          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Tahapan</th>
           <th className="border-b px-3 py-2 text-left whitespace-nowrap">Status</th>
           <th className="border-b px-3 py-2 text-left whitespace-nowrap">Waktu</th>
           <th className="border-b px-3 py-2 text-left whitespace-nowrap">Catatan</th>
