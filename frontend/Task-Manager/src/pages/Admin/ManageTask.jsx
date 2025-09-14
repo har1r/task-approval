@@ -268,9 +268,9 @@ const ManageTasks = () => {
 
         {/* Tabel */}
         <Suspense fallback={<TableSkeleton rows={10} cols={9}/>}>
-          <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+          <div className="relative mt-4 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
             {loading && (
-                <div className="absolute inset-0 z-10 grid place-items-center rounded-xl bg-white/60 backdrop-blur-[1px]">
+                <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center rounded-xl bg-white/60 backdrop-blur-[1px]">
                   <div className="h-6 w-6 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent" />
                 </div>
             )}
