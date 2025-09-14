@@ -14,7 +14,7 @@ import { formatDateId } from "../../utils/formatDateId";
 
 // Row info ringkas & responsif
 const InfoRow = memo(({ label, value }) => (
-  <div className="sm:grid sm:grid-cols-[18ch_1ch_minmax(0,1fr)] sm:gap-x-2 leading-6">
+  <div className="sm:grid sm:grid-cols-[16ch_1ch_minmax(0,1fr)] sm:gap-x-2 leading-6 items-start">
     {/* Label (di atas pada mobile) */}
     <span className="block text-[13px] sm:text-sm font-medium text-slate-700">
       {label}
@@ -24,7 +24,13 @@ const InfoRow = memo(({ label, value }) => (
     <span className="hidden sm:block text-slate-700">:</span>
 
     {/* Nilai */}
-    <span className="block text-[13px] sm:text-sm text-slate-900 break-words min-w-0 sm:min-w-[8rem] mt-0.5 sm:mt-0">
+    <span
+      className="
+        block text-[13px] sm:text-sm text-slate-900
+        break-all md:break-words
+        min-w-0 sm:min-w-[8rem] mt-0.5 sm:mt-0
+      "
+    >
       {value ?? "-"}
     </span>
   </div>
@@ -197,8 +203,9 @@ const ManageApproval = ({ taskId, onSuccess, onClose }) => {
       </h3>
 
       {/* Informasi Task */}
-      <div className="bg-slate-50 border border-slate-200 rounded-md p-4 sm:p-5 text-sm space-y-2 sm:space-y-1">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+      <div className="bg-slate-50 border border-slate-200 rounded-md p-4 sm:p-5 text-sm space-y-3">
+        {/* Satu kolom sampai md, baru dua kolom */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
           <InfoRow label="Nopel" value={task.mainData?.nopel ?? "-"} />
           <InfoRow label="NOP" value={task.mainData?.nop ?? "-"} />
           <InfoRow

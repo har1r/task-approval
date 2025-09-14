@@ -63,12 +63,21 @@ const StatusChip = ({ status }) => {
 };
 
 const InfoRow = ({ label, children }) => (
-  <div className="grid grid-cols-[140px_1ch_minmax(0,1fr)] gap-x-2 text-sm">
-    <span className="font-medium text-slate-700">{label}</span>
-    <span className="text-slate-400">:</span>
+  <div className="grid grid-cols-[140px_1fr] gap-x-2 items-baseline text-sm">
+    <span className="font-medium text-slate-700 after:content-[':'] after:ml-1 after:text-slate-400">
+      {label}
+    </span>
     <span className="text-slate-900 break-words">{children ?? "-"}</span>
   </div>
 );
+
+// const InfoRow = ({ label, children }) => (
+//   <div className="grid grid-cols-[140px_1ch_minmax(0,1fr)] gap-x-2 text-sm">
+//     <span className="font-medium text-slate-700">{label}</span>
+//     <span className="text-slate-400">:</span>
+//     <span className="text-slate-900 break-words">{children ?? "-"}</span>
+//   </div>
+// );
 
 const SectionCard = ({ title, children, className = "", bodyClassName = "" }) => (
   <section className={`rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden ${className}`}>
