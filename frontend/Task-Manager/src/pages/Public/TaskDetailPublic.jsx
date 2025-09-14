@@ -173,106 +173,94 @@ const TaskDetailPublic = () => {
           </div>
         </section>
 
-        {/* Kartu besar: progress kiri + konten kanan */}
-        <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div
-            className="
-              grid gap-4 p-4 md:grid-cols-[minmax(0,220px)_1fr]
-              md:gap-6 md:p-6 md:items-stretch
-            "
-          >
-            {/* Progress column */}
-            {/* <aside
-              className="
-                md:self-stretch md:pr-6 md:border-r md:border-slate-200
-                flex justify-center md:justify-end
-              "
-              aria-label="Progress Tahapan"
-            >
-              <div className="w-full max-w-[220px]">
-                <TaskStageProgress task={task} orientation="vertical" />
-              </div>
-            </aside> */}
+        {/* Progress & Detail dalam 2 section terpisah */}
+<section aria-label="Progress & Detail">
+  <div className="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,240px)_1fr] md:gap-6">
+    {/* SECTION: Progress (atas di mobile, kiri di desktop) */}
+    <SectionCard
+      title="Progress Tahapan"
+      className="self-start md:sticky md:top-4"
+      bodyClassName="flex justify-center md:block"
+    >
+      <div className="w-full max-w-[220px] mx-auto md:mx-0">
+        <TaskStageProgress task={task} orientation="vertical" />
+      </div>
+    </SectionCard>
 
-            {/* Right column */}
-            <div className="space-y-6">
-              <SectionCard title="Data Utama">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <InfoRow label="NOPEL">{mainData.nopel}</InfoRow>
-                    <InfoRow label="NOP">{mainData.nop}</InfoRow>
-                    <InfoRow label="Nama Lama">{mainData.oldName}</InfoRow>
-                    <InfoRow label="Alamat">{mainData.address}</InfoRow>
-                  </div>
-                  <div className="space-y-2">
-                    <InfoRow label="Kelurahan">{mainData.village}</InfoRow>
-                    <InfoRow label="Kecamatan">{mainData.subdistrict}</InfoRow>
-                    <InfoRow label="Permohonan">{formatTitle(title)}</InfoRow>
-                    <InfoRow label="Tanggal Dibuat">{formatDateId(createdAt)}</InfoRow>
-                  </div>
-                </div>
-              </SectionCard>
-
-              <SectionCard title="Data Tambahan">
-                <div className="grid gap-4">
-                  {additionalData.map((item, index) => (
-                    <div key={index} className="rounded-lg border border-slate-200 bg-slate-50 p-4 shadow-sm">
-                      <div className="grid gap-2 sm:grid-cols-2">
-                        <InfoRow label="Nama Baru">{item.newName}</InfoRow>
-                        <InfoRow label="Nomor Sertifikat">{item.certificate || "-"}</InfoRow>
-                        <InfoRow label="Luas Tanah">
-                          {item.landWide != null && item.landWide !== "" ? `${item.landWide} m²` : "-"}
-                        </InfoRow>
-                        <InfoRow label="Luas Bangunan">
-                          {item.buildingWide != null && item.buildingWide !== "" ? `${item.buildingWide} m²` : "-"}
-                        </InfoRow>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </SectionCard>
-
-              <SectionCard title="Riwayat Persetujuan" bodyClassName="p-0">
-                <div className="overflow-x-auto">
-                  <table className="min-w-full text-sm">
-                    <thead className="bg-slate-100 text-slate-800">
-                      <tr>
-                        <th className="border-b px-3 py-2 text-left">Tahapan</th>
-                        <th className="border-b px-3 py-2 text-left">Status</th>
-                        <th className="border-b px-3 py-2 text-left">Waktu</th>
-                        <th className="border-b px-3 py-2 text-left">Catatan</th>
-                      </tr>
-                    </thead>
-                    <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
-                      {approvals.length > 0 ? (
-                        approvals.map((a, idx) => (
-                          <tr key={idx} className="transition-colors hover:bg-indigo-50/40">
-                            <td className="border-b px-3 py-2">
-                              {stageLabel[a.stage] || formatTitle(a.stage)}
-                            </td>
-                            <td className="border-b px-3 py-2">
-                              <StatusChip status={a.status} />
-                            </td>
-                            <td className="border-b px-3 py-2">
-                              {a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}
-                            </td>
-                            <td className="border-b px-3 py-2">{a.note || "-"}</td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={4} className="py-4 text-center italic text-slate-500">
-                            Belum ada data approval.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </SectionCard>
-            </div>
+    {/* SECTION: Konten kanan (berisi kartu-kartu lain) */}
+    <div className="space-y-6 min-w-0">
+      <SectionCard title="Data Utama">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="space-y-2">
+            <InfoRow label="NOPEL">{mainData.nopel}</InfoRow>
+            <InfoRow label="NOP">{mainData.nop}</InfoRow>
+            <InfoRow label="Nama Lama">{mainData.oldName}</InfoRow>
+            <InfoRow label="Alamat">{mainData.address}</InfoRow>
           </div>
-        </section>
+          <div className="space-y-2">
+            <InfoRow label="Kelurahan">{mainData.village}</InfoRow>
+            <InfoRow label="Kecamatan">{mainData.subdistrict}</InfoRow>
+            <InfoRow label="Permohonan">{formatTitle(title)}</InfoRow>
+            <InfoRow label="Tanggal Dibuat">{formatDateId(createdAt)}</InfoRow>
+          </div>
+        </div>
+      </SectionCard>
+
+      <SectionCard title="Data Tambahan">
+        <div className="grid gap-4">
+          {additionalData.map((item, index) => (
+            <div key={index} className="rounded-lg border border-slate-200 bg-slate-50 p-4 shadow-sm">
+              <div className="grid gap-2 sm:grid-cols-2">
+                <InfoRow label="Nama Baru">{item.newName}</InfoRow>
+                <InfoRow label="Nomor Sertifikat">{item.certificate || "-"}</InfoRow>
+                <InfoRow label="Luas Tanah">
+                  {item.landWide != null && item.landWide !== "" ? `${item.landWide} m²` : "-"}
+                </InfoRow>
+                <InfoRow label="Luas Bangunan">
+                  {item.buildingWide != null && item.buildingWide !== "" ? `${item.buildingWide} m²` : "-"}
+                </InfoRow>
+              </div>
+            </div>
+          ))}
+        </div>
+      </SectionCard>
+
+      <SectionCard title="Riwayat Persetujuan" bodyClassName="p-0">
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <thead className="bg-slate-100 text-slate-800">
+              <tr>
+                <th className="border-b px-3 py-2 text-left">Tahapan</th>
+                <th className="border-b px-3 py-2 text-left">Status</th>
+                <th className="border-b px-3 py-2 text-left">Waktu</th>
+                <th className="border-b px-3 py-2 text-left">Catatan</th>
+              </tr>
+            </thead>
+            <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
+              {approvals.length > 0 ? (
+                approvals.map((a, idx) => (
+                  <tr key={idx} className="transition-colors hover:bg-indigo-50/40">
+                    <td className="border-b px-3 py-2">{stageLabel[a.stage] || formatTitle(a.stage)}</td>
+                    <td className="border-b px-3 py-2"><StatusChip status={a.status} /></td>
+                    <td className="border-b px-3 py-2">{a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}</td>
+                    <td className="border-b px-3 py-2">{a.note || "-"}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="py-4 text-center italic text-slate-500">
+                    Belum ada data approval.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </SectionCard>
+    </div>
+  </div>
+</section>
+
       </div>
     </main>
   );
