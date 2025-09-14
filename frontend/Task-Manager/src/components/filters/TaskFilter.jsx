@@ -114,7 +114,7 @@ const TaskFilter = ({
         </div>
 
         {/* Order */}
-        <div className="md:col-span-1">
+        <div className="md:col-span-2">
           <label htmlFor={idOrder} className="mb-1 block text-[13px] font-medium text-slate-700">
             Urutan
           </label>
