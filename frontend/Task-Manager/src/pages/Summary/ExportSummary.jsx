@@ -1,46 +1,22 @@
 // src/pages/Admin/ExportSummary.jsx
 import React, { useCallback, useEffect, useMemo, useRef, useState, memo } from "react";
+import { toast } from "react-toastify";
+
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import Pagination from "../../components/ui/Pagination";
-import { toast } from "react-toastify";
+
+import TableSkeleton from "../../components/Skeletons/TableSkeleton";
 
 /* ----------------------------- Helpers ----------------------------- */
 const nf = new Intl.NumberFormat("id-ID");
+
 const titleCase = (s = "") =>
   String(s).replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 const buildExportNumber = (num, year = new Date().getFullYear()) =>
   num ? `973/${num}-UPT.PD.WIL.IV/${year}` : "-";
 const onlyDigits = (v) => String(v || "").replace(/[^\d]/g, "");
-
-/* --------------------------- Local pieces -------------------------- */
-const TableSkeleton = ({ rows = 5 }) => (
-  <div className="overflow-x-auto">
-    <table className="min-w-full text-sm">
-      <thead className="sticky top-0 bg-slate-100">
-        <tr>
-          {["No", "NOPEL", "NOP", "Nama Pemohon", "Jenis", "No. Pengantar"].map((h) => (
-            <th key={h} className="px-3 py-2 text-left border-b">
-              <div className="h-3 w-28 rounded bg-slate-200" />
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
-        {Array.from({ length: rows }).map((_, i) => (
-          <tr key={i} className="[&>td]:border-b">
-            {Array.from({ length: 6 }).map((__, j) => (
-              <td key={j} className="px-3 py-2">
-                <div className="h-3 w-32 animate-pulse rounded bg-slate-200" />
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-);
 
 const EmptyState = ({ children = "Tidak ada data" }) => (
   <div className="rounded-xl border border-slate-200 bg-white p-10 text-center text-slate-600">
@@ -151,7 +127,7 @@ const ExportSummary = () => {
             <form onSubmit={onSubmit} className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-3">
               <div className="flex-1 min-w-[240px]">
                 <label htmlFor="exportNumber" className="mb-1 block text-sm font-medium text-slate-800">
-                  Cari nomor pengantar (angka)
+                  Cari nomor pengantar
                 </label>
                 <input
                   id="exportNumber"
@@ -182,10 +158,15 @@ const ExportSummary = () => {
           </section>
 
           {/* Table (per task) */}
-          <section className="mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <section className="relative mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
+            {loading && (
+              <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center rounded-xl bg-white/60 backdrop-blur-[1px]">
+                <div className="h-6 w-6 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent" />
+              </div>
+            )}
             {loading ? (
               <div className="p-6">
-                <TableSkeleton rows={5} />
+                <TableSkeleton rows={10} cols={6} />
               </div>
             ) : tasks.length === 0 ? (
               <div className="p-6">
@@ -242,13 +223,6 @@ const ExportSummary = () => {
               disabled={loading}
             />
           </div>
-
-          {/* SR announcement saat loading awal */}
-          {loading && tasks.length === 0 && (
-            <div aria-live="polite" className="sr-only">
-              Memuat data…
-            </div>
-          )}
         </div>
       </div>
     </DashboardLayout>
