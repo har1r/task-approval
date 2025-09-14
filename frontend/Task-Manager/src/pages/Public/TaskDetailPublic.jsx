@@ -33,7 +33,6 @@ const stageLabel = {
   selesai: "Selesai",
 };
 
-// Chip status
 const StatusChip = ({ status }) => {
   if (status === "approved")
     return (
@@ -63,7 +62,6 @@ const StatusChip = ({ status }) => {
   );
 };
 
-// Baris info berkolon sejajar
 const InfoRow = ({ label, children }) => (
   <div className="grid grid-cols-[140px_1ch_1fr] gap-x-2 text-sm">
     <span className="font-medium text-slate-700">{label}</span>
@@ -72,7 +70,6 @@ const InfoRow = ({ label, children }) => (
   </div>
 );
 
-// Kartu seksi agar konsisten
 const SectionCard = ({ title, children, className = "" }) => (
   <section className={`rounded-xl border border-slate-200 bg-white shadow-sm ${className}`}>
     {title ? (
@@ -118,7 +115,6 @@ const TaskDetailPublic = () => {
 
   const approvals = useMemo(() => task?.approvals ?? [], [task]);
 
-  // Loading full-screen center
   if (loading) {
     return (
       <div className="min-h-screen grid place-items-center bg-slate-50">
@@ -127,7 +123,6 @@ const TaskDetailPublic = () => {
     );
   }
 
-  // Not found
   if (!task) {
     return (
       <div className="min-h-screen bg-slate-50 py-12 px-4">
@@ -146,12 +141,11 @@ const TaskDetailPublic = () => {
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4">
       <div className="mx-auto w-full max-w-5xl space-y-6">
-        {/* Header ringkas dengan badge & meta */}
+        {/* Header */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                {/* Monogram kecil */}
                 <div className="relative">
                   <div className="absolute inset-0 rounded-lg bg-indigo-400/30 blur opacity-60" />
                   <div className="relative grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-500 text-white shadow-sm ring-1 ring-white/10">
@@ -179,29 +173,34 @@ const TaskDetailPublic = () => {
           </div>
         </div>
 
-        {/* Kartu besar: kiri progress (center terhadap konten), kanan seluruh konten */}
+        {/* Kartu besar: progress kiri (full height & ada divider), konten kanan */}
         <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-6 p-5 md:grid-cols-[300px_1fr] md:gap-8 md:p-6">
-            {/* Sidebar Progress — CENTER terhadap kolom konten */}
-            <aside className="flex justify-center md:justify-start md:self-center" aria-label="Progress Tahapan">
-              <div className="w-full max-w-[100px]">
+          <div className="grid gap-6 p-5 md:grid-cols-[280px_1fr] md:gap-8 md:p-6 md:items-stretch">
+            {/* Progress column */}
+            <aside
+              className="
+                flex items-center justify-center
+                md:justify-end md:self-stretch md:pr-6
+                md:border-r md:border-slate-200
+              "
+              aria-label="Progress Tahapan"
+            >
+              {/* biar melebar mengikuti kolom & tetap rapi */}
+              <div className="w-full max-w-[240px]">
                 <TaskStageProgress task={task} orientation="vertical" />
               </div>
             </aside>
 
-            {/* Kolom kanan: Informasi Utama + Data Tambahan + Riwayat Approval */}
+            {/* Right column */}
             <div className="space-y-6">
-              {/* Informasi Utama */}
               <SectionCard title="Data Subjek Pajak Baru" className="!mt-0">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                  {/* Kolom kiri */}
                   <div className="space-y-2">
                     <InfoRow label="NOPEL">{mainData.nopel}</InfoRow>
                     <InfoRow label="NOP">{mainData.nop}</InfoRow>
                     <InfoRow label="Nama Lama">{mainData.oldName}</InfoRow>
                     <InfoRow label="Alamat">{mainData.address}</InfoRow>
                   </div>
-                  {/* Kolom kanan */}
                   <div className="space-y-2">
                     <InfoRow label="Kelurahan">{mainData.village}</InfoRow>
                     <InfoRow label="Kecamatan">{mainData.subdistrict}</InfoRow>
@@ -211,7 +210,6 @@ const TaskDetailPublic = () => {
                 </div>
               </SectionCard>
 
-              {/* Data Tambahan */}
               <SectionCard title="Data Tambahan">
                 {additionalData.length > 0 ? (
                   <div className="grid gap-4">
@@ -238,7 +236,6 @@ const TaskDetailPublic = () => {
                 )}
               </SectionCard>
 
-              {/* Riwayat Approval */}
               <SectionCard title="Riwayat Persetujuan" className="!p-0">
                 <div className="overflow-x-auto">
                   <table className="min-w-full text-sm">
