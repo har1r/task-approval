@@ -209,7 +209,6 @@ const TaskDetailPublic = () => {
               </SectionCard>
 
               <SectionCard title="Data Tambahan">
-                {additionalData.length > 0 ? (
                   <div className="grid gap-4">
                     {additionalData.map((item, index) => (
                       <div
@@ -229,13 +228,10 @@ const TaskDetailPublic = () => {
                       </div>
                     ))}
                   </div>
-                ) : (
-                  <p className="italic text-slate-500">Tidak ada data tambahan.</p>
-                )}
               </SectionCard>
 
-              <SectionCard title="Riwayat Persetujuan" className="!p-0">
-                <div className="overflow-x-auto">
+              <SectionCard title="Riwayat Persetujuan" className="!p-0 overflow-x-auto">
+                <div>
                   <table className="min-w-full text-sm">
                     <thead className="sticky top-0 z-[1] bg-slate-100 text-slate-800">
                       <tr>
