@@ -1,7 +1,14 @@
 // src/components/cards/TaskStageProgress.jsx
 import React from "react";
 
-const STEPS = ["diinput", "ditata", "diteliti", "diarsipkan", "dikirim", "selesai"];
+const STEPS = [
+  "diinput",
+  "ditata",
+  "diteliti",
+  "diarsipkan",
+  "dikirim",
+  "selesai",
+];
 const LABELS = {
   diinput: "Diinput",
   ditata: "Ditata",
@@ -11,7 +18,10 @@ const LABELS = {
   selesai: "Selesai",
 };
 const toLabel = (s) =>
-  LABELS[s] ?? String(s || "").replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  LABELS[s] ??
+  String(s || "")
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 
 export default function TaskStageProgress({
   task,
@@ -22,10 +32,14 @@ export default function TaskStageProgress({
 
   const baseActiveIdx = Math.max(steps.indexOf(task.currentStage), -1);
   const doneIdx = steps.indexOf("selesai");
-  const rejectedIdx = task.rejectedStage ? steps.indexOf(task.rejectedStage) : -1;
+  const rejectedIdx = task.rejectedStage
+    ? steps.indexOf(task.rejectedStage)
+    : -1;
 
   const approvals = Array.isArray(task?.approvals) ? task.approvals : [];
-  const sentApproved = approvals.some((a) => a?.stage === "dikirim" && a?.status === "approved");
+  const sentApproved = approvals.some(
+    (a) => a?.stage === "dikirim" && a?.status === "approved"
+  );
 
   let activeIdx = baseActiveIdx;
   let completedIdx;
@@ -45,7 +59,11 @@ export default function TaskStageProgress({
   if (orientation === "horizontal") {
     return (
       <div className="mb-0">
-        <div className="flex items-start" role="list" aria-label="Progress tahapan">
+        <div
+          className="flex items-start"
+          role="list"
+          aria-label="Progress tahapan"
+        >
           {steps.map((stage, i) => {
             const isRejected = i === rejectedIdx;
             const isCurrent = i === activeIdx && !isRejected;
@@ -71,7 +89,11 @@ export default function TaskStageProgress({
               : "text-slate-400";
 
             return (
-              <div key={stage} className="flex flex-1 flex-col items-center" role="listitem">
+              <div
+                key={stage}
+                className="flex flex-1 flex-col items-center"
+                role="listitem"
+              >
                 <div className="relative flex h-14 w-full items-center justify-center">
                   {i > 0 && (
                     <div
@@ -105,7 +127,11 @@ export default function TaskStageProgress({
                     aria-label={toLabel(stage)}
                     title={toLabel(stage)}
                   >
-                    <span className={`text-sm font-bold leading-none ${numberColor}`}>{i + 1}</span>
+                    <span
+                      className={`text-sm font-bold leading-none ${numberColor}`}
+                    >
+                      {i + 1}
+                    </span>
 
                     {isCompleted && !isRejected && (
                       <span
@@ -113,7 +139,11 @@ export default function TaskStageProgress({
                         aria-hidden
                         title="Selesai"
                       >
-                        <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor">
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="h-3 w-3"
+                          fill="currentColor"
+                        >
                           <path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z" />
                         </svg>
                       </span>
@@ -130,7 +160,11 @@ export default function TaskStageProgress({
                           aria-hidden
                           title="Menunggu / Diproses"
                         >
-                          <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor">
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="h-3 w-3"
+                            fill="currentColor"
+                          >
                             <path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.26 8.26 0 0 1 12 20.25Zm.75-13.5h-1.5v6l5 3 .75-1.23-4.25-2.55Z" />
                           </svg>
                         </span>
@@ -143,7 +177,11 @@ export default function TaskStageProgress({
                         aria-hidden
                         title="Ditolak"
                       >
-                        <svg viewBox="0 0 24 24" className="h-3 w-3" fill="currentColor">
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="h-3 w-3"
+                          fill="currentColor"
+                        >
                           <path d="M18.3 5.71 12 12.01 5.71 5.71 4.3 7.12l6.29 6.28-6.3 6.3 1.42 1.41 6.3-6.3 6.29 6.3 1.41-1.41-6.29-6.3 6.29-6.29z" />
                         </svg>
                       </span>
@@ -172,19 +210,22 @@ export default function TaskStageProgress({
       </div>
     );
   }
-
   // ====== VERTICAL (baru) ======
   return (
-    <div role="list" aria-label="Progress tahapan (vertikal)" className="relative">
+    <div
+      role="list"
+      aria-label="Progress tahapan (vertikal)"
+      className="relative"
+    >
       <ol className="space-y-4">
         {steps.map((stage, i) => {
           const isRejected = i === rejectedIdx;
           const isCurrent = i === activeIdx && !isRejected;
           const isCompleted = i <= completedIdx;
 
-          // garis vertikal (konektor)
-          const upGreen = i > 0 && i <= limitIdx;
-          const downGreen = i < limitIdx;
+          // konektor hijau (logika)
+          const topGreen = i > 0 && i <= limitIdx; // dari atas ke tengah
+          const bottomGreen = i < limitIdx; // dari tengah ke bawah
 
           const dotBorder = isRejected
             ? "border-rose-500"
@@ -199,32 +240,64 @@ export default function TaskStageProgress({
             : isCompleted
             ? "text-emerald-600"
             : isCurrent
-            ? "text-yellow-300"
+            ? "text-yellow-600"
             : "text-slate-400";
 
           return (
             <li key={stage} className="relative pl-10" role="listitem">
-              {/* garis atas & bawah */}
+              {/* Konektor ABU-ABU (selalu ada jika bukan ujung) */}
+              {/* Top -> Center */}
               {i > 0 && (
                 <span
                   aria-hidden
-                  className={[
-                    "absolute left-5 top-0 h-2/5 w-0.5 -translate-x-1/2 rounded",
-                    upGreen ? "bg-emerald-500" : "bg-slate-300",
-                  ].join(" ")}
+                  className="absolute left-5 w-0.5 bg-slate-300 rounded"
+                  style={{
+                    top: 0,
+                    height: "50%",
+                    transform: "translateX(-50%)",
+                  }}
                 />
               )}
+              {/* Center -> Bottom */}
               {i < steps.length - 1 && (
                 <span
                   aria-hidden
-                  className={[
-                    "absolute left-5 bottom-0 h-3/5 w-0.5 -translate-x-1/2 rounded",
-                    downGreen ? "bg-emerald-500" : "bg-slate-300",
-                  ].join(" ")}
+                  className="absolute left-5 w-0.5 bg-slate-300 rounded"
+                  style={{
+                    bottom: 0,
+                    height: "50%",
+                    transform: "translateX(-50%)",
+                  }}
                 />
               )}
 
-              {/* bullet */}
+              {/* Overlay HIJAU (progress) */}
+              {/* Top -> Center (hijau) */}
+              {topGreen && (
+                <span
+                  aria-hidden
+                  className="absolute left-5 w-0.5 bg-emerald-500 rounded"
+                  style={{
+                    top: 0,
+                    height: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                />
+              )}
+              {/* Center -> Bottom (hijau) */}
+              {bottomGreen && (
+                <span
+                  aria-hidden
+                  className="absolute left-5 w-0.5 bg-emerald-500 rounded"
+                  style={{
+                    bottom: 0,
+                    height: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                />
+              )}
+
+              {/* Bullet */}
               <span
                 className={[
                   "relative z-10 grid h-8 w-8 place-items-center rounded-full border-4 bg-white",
@@ -236,20 +309,30 @@ export default function TaskStageProgress({
                 title={toLabel(stage)}
                 aria-current={isCurrent ? "step" : undefined}
               >
-                <span className={`text-[11px] font-bold leading-none ${numberColor}`}>{i + 1}</span>
+                <span
+                  className={`text-[11px] font-bold leading-none ${numberColor}`}
+                >
+                  {i + 1}
+                </span>
 
+                {/* Completed badge */}
                 {isCompleted && !isRejected && (
                   <span
                     className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-white ring-2 ring-white"
                     aria-hidden
                     title="Selesai"
                   >
-                    <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="currentColor">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-2.5 w-2.5"
+                      fill="currentColor"
+                    >
                       <path d="M9 16.2l-3.5-3.5L4 14.2l5 5 11-11-1.4-1.4z" />
                     </svg>
                   </span>
                 )}
 
+                {/* Current badge */}
                 {isCurrent && !isRejected && (
                   <>
                     <span
@@ -261,27 +344,36 @@ export default function TaskStageProgress({
                       aria-hidden
                       title="Menunggu / Diproses"
                     >
-                      <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="currentColor">
+                      <svg
+                        viewBox="0 0 24 24"
+                        className="h-2.5 w-2.5"
+                        fill="currentColor"
+                      >
                         <path d="M12 1.75A10.25 10.25 0 1 0 22.25 12 10.262 10.262 0 0 0 12 1.75Zm0 18.5A8.25 8.25 0 1 1 20.25 12 8.26 8.26 0 0 1 12 20.25Zm.75-13.5h-1.5v6l5 3 .75-1.23-4.25-2.55Z" />
                       </svg>
                     </span>
                   </>
                 )}
 
+                {/* Rejected badge */}
                 {isRejected && (
                   <span
                     className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-white ring-2 ring-white"
                     aria-hidden
                     title="Ditolak"
                   >
-                    <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" fill="currentColor">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-2.5 w-2.5"
+                      fill="currentColor"
+                    >
                       <path d="M18.3 5.71 12 12.01 5.71 5.71 4.3 7.12l6.29 6.28-6.3 6.3 1.42 1.41 6.3-6.3 6.29 6.3 1.41-1.41-6.29-6.3 6.29-6.29z" />
                     </svg>
                   </span>
                 )}
               </span>
 
-              {/* label + optional subtext */}
+              {/* Label */}
               <div className="ml-6">
                 <p
                   className={[
