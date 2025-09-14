@@ -102,7 +102,7 @@ const TaskDetailPublic = () => {
       } catch (error) {
         if (error?.name !== "CanceledError" && error?.code !== "ERR_CANCELED") {
           console.error("Gagal mengambil data task:", error);
-          setTask(null);
+          setTask(null); // ✅ perbaikan
         }
       } finally {
         setLoading(false);
@@ -165,7 +165,7 @@ const TaskDetailPublic = () => {
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
                 <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                  <path d="M12 2L2 7l10 5 10-5-10-5zm0 7l-10 5 10 5 10-5-10-5z" />
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
                 </svg>
                 Tahap: {stageLabel[String(currentStage)?.toLowerCase()] || formatTitle(currentStage)}
               </span>
@@ -173,20 +173,18 @@ const TaskDetailPublic = () => {
           </div>
         </div>
 
-        {/* Kartu besar: progress kiri (full height & ada divider), konten kanan */}
+        {/* Kartu besar: progress kiri (w-fit + divider), konten kanan mepet */}
         <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-6 p-5 md:grid-cols-[280px_1fr] md:gap-8 md:p-6 md:items-stretch">
+          <div className="grid gap-4 p-4 md:grid-cols-[auto_1fr] md:gap-6 md:p-5 md:items-stretch">
             {/* Progress column */}
             <aside
               className="
-                flex items-center justify-center
-                md:justify-end md:self-stretch md:pr-6
+                flex justify-center md:justify-end md:self-stretch md:pr-4
                 md:border-r md:border-slate-200
               "
               aria-label="Progress Tahapan"
             >
-              {/* biar melebar mengikuti kolom & tetap rapi */}
-              <div className="w-full max-w-[240px]">
+              <div className="w-fit">
                 <TaskStageProgress task={task} orientation="vertical" />
               </div>
             </aside>
