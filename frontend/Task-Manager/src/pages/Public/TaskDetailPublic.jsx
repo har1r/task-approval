@@ -184,7 +184,7 @@ const TaskDetailPublic = () => {
             {/* Progress column */}
             <aside
               className="
-                md:self-stretch md:pr-6 md:border-r md:border-slate-200
+                md:pr-6 md:border-r md:border-slate-200
                 flex justify-center md:justify-end
               "
               aria-label="Progress Tahapan"
