@@ -67,7 +67,7 @@ const InfoRow = ({ label, children }) => (
     <span className="font-medium text-slate-700 after:content-[':'] after:ml-1 after:text-slate-400">
       {label}
     </span>
-    <span className="text-slate-900 break-words">{children ?? "-"}</span>
+    <span className="text-slate-900 before:content-[':'] before:ml-1 before:text-slate-400 break-words">{children ?? "-"}</span>
   </div>
 );
 

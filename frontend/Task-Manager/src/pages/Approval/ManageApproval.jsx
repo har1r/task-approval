@@ -12,32 +12,22 @@ import { API_PATHS } from "../../utils/apiPaths";
 import { toast } from "react-toastify";
 import { formatDateId } from "../../utils/formatDateId";
 
-// Row info ringkas & responsif
+// Row info ringkas (tetap style lama, tapi responsif & anti overflow)
 const InfoRow = memo(({ label, value }) => (
-  <div className="sm:grid sm:grid-cols-[16ch_1ch_minmax(0,1fr)] sm:gap-x-2 leading-6 items-start">
-    {/* Label (di atas pada mobile) */}
-    <span className="block text-[13px] sm:text-sm font-medium text-slate-700">
+  <div className="grid grid-cols-1 gap-y-0.5 sm:grid-cols-[18ch_minmax(0,1fr)] sm:gap-x-3 leading-6 items-start">
+    {/* Label + ":" sebagai pseudo-element biar jaraknya rapat */}
+    <span className="font-medium text-slate-700 text-left after:content-[':'] after:ml-1 after:text-slate-400">
       {label}
     </span>
-
-    {/* Titik dua disembunyikan di mobile */}
-    <span className="hidden sm:block text-slate-700">:</span>
-
-    {/* Nilai */}
-    <span
-      className="
-        block text-[13px] sm:text-sm text-slate-900
-        break-all md:break-words
-        min-w-0 sm:min-w-[8rem] mt-0.5 sm:mt-0
-      "
-    >
+    {/* Nilai: wrap aman (mobile super-aman break-all) */}
+    <span className="text-slate-900 min-w-0 break-all sm:break-words">
       {value ?? "-"}
     </span>
   </div>
 ));
 InfoRow.displayName = "InfoRow";
 
-// Tombol aksi (approve/reject)
+// Tombol aksi (approve/reject) — full width di mobile
 const ActionButton = memo(
   ({ action, loadingAction, onClick, children, color = "green" }) => {
     const isLoading = loadingAction === action;
@@ -75,15 +65,6 @@ const ManageApproval = ({ taskId, onSuccess, onClose }) => {
   const noteId = useId();
   const abortRef = useRef(null);
 
-  const stageLabel = {
-    diinput: "Diinput",
-    ditata: "Ditata",
-    diteliti: "Diteliti",
-    diarsipkan: "Diarsipkan",
-    dikirim: "Dikirim",
-    selesai: "Selesai",
-  };
-
   const formatTitle = useCallback(
     (t) =>
       String(t || "")
@@ -97,7 +78,7 @@ const ManageApproval = ({ taskId, onSuccess, onClose }) => {
     if (!taskId) return;
 
     const ctrl = new AbortController();
-    abortRef.current?.abort(); // batalkan request sebelumnya
+    abortRef.current?.abort();
     abortRef.current = ctrl;
 
     const run = async () => {
@@ -109,7 +90,6 @@ const ManageApproval = ({ taskId, onSuccess, onClose }) => {
         );
         setTask(res.data);
       } catch (err) {
-        // Jika dibatalkan, abaikan
         if (err?.name === "CanceledError" || err?.code === "ERR_CANCELED")
           return;
         toast.error(
@@ -136,7 +116,7 @@ const ManageApproval = ({ taskId, onSuccess, onClose }) => {
         toast.error("Tindakan tidak valid");
         return;
       }
-      if (loadingAction) return; // cegah double click
+      if (loadingAction) return;
 
       setLoadingAction(action);
       try {
@@ -159,9 +139,9 @@ const ManageApproval = ({ taskId, onSuccess, onClose }) => {
   );
 
   if (loadingTask) {
-    // Skeleton ringkas & responsif
+    // Skeleton ringkas
     return (
-      <div className="space-y-5 p-1 sm:p-0">
+      <div className="space-y-5">
         <div className="h-5 w-40 bg-slate-200 rounded animate-pulse" />
         <div className="bg-slate-50 border border-slate-200 rounded-md p-4 space-y-2">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -172,14 +152,14 @@ const ManageApproval = ({ taskId, onSuccess, onClose }) => {
           ))}
         </div>
         <div>
-          <div className="h-4 w-28 bg-slate-200 rounded mb-2 animate-pulse" />
-          <div className="h-24 sm:h-20 w-full bg-slate-100 rounded animate-pulse" />
+          <div className="h-4 w-24 bg-slate-200 rounded mb-2 animate-pulse" />
+          <div className="h-20 w-full bg-slate-100 rounded animate-pulse" />
         </div>
         <div className="flex flex-col sm:flex-row sm:justify-end gap-2">
           {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={i}
-              className="h-10 w-full sm:w-28 bg-slate-200 rounded animate-pulse"
+              className="h-9 w-full sm:w-24 bg-slate-200 rounded animate-pulse"
             />
           ))}
         </div>
@@ -189,36 +169,20 @@ const ManageApproval = ({ taskId, onSuccess, onClose }) => {
 
   if (!task) return null;
 
-  const stageText =
-    (task.currentStage && String(task.currentStage).toLowerCase()) || "";
-  const stageNice = stageLabel[stageText] || formatTitle(task.currentStage);
-
   return (
     <div className="space-y-5">
-      <h3
-        id="approval-title"
-        className="text-base sm:text-lg font-semibold text-slate-800"
-      >
+      <h3 id="approval-title" className="text-lg font-semibold text-slate-800">
         Approval Permohonan
       </h3>
 
       {/* Informasi Task */}
-      <div className="bg-slate-50 border border-slate-200 rounded-md p-4 sm:p-5 text-sm space-y-3">
-        {/* Satu kolom sampai md, baru dua kolom */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
-          <InfoRow label="Nopel" value={task.mainData?.nopel ?? "-"} />
-          <InfoRow label="NOP" value={task.mainData?.nop ?? "-"} />
-          <InfoRow
-            label="Nama"
-            value={task.additionalData?.[0]?.newName ?? "-"}
-          />
-          <InfoRow
-            label="Jenis Permohonan"
-            value={formatTitle(task.title)}
-          />
-          <InfoRow label="Tanggal Diajukan" value={createdAt} />
-          <InfoRow label="Tahapan Saat Ini" value={stageNice} />
-        </div>
+      <div className="bg-slate-50 border border-slate-200 rounded-md p-4 text-sm space-y-2">
+        <InfoRow label="Nopel" value={task.mainData?.nopel} />
+        <InfoRow label="NOP" value={task.mainData?.nop} />
+        <InfoRow label="Nama" value={task.additionalData?.[0]?.newName} />
+        <InfoRow label="Jenis Permohonan" value={formatTitle(task.title)} />
+        <InfoRow label="Tanggal Diajukan" value={createdAt} />
+        <InfoRow label="Tahapan Saat Ini" value={task.currentStage} />
       </div>
 
       {/* Catatan */}
@@ -234,13 +198,13 @@ const ManageApproval = ({ taskId, onSuccess, onClose }) => {
           rows={4}
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          className="w-full border border-slate-300 rounded px-3 py-2 text-[13px] sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y min-h-24"
+          className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y min-h-24"
           placeholder="Masukkan catatan jika diperlukan..."
         />
       </div>
 
       {/* Tombol Aksi */}
-      <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-1">
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2">
         <button
           type="button"
           onClick={onClose}
