@@ -182,9 +182,9 @@ const TaskDetailPublic = () => {
             "
           >
             {/* Progress column */}
-            <aside
+            {/* <aside
               className="
-                md:pr-6 md:border-r md:border-slate-200
+                md:self-stretch md:pr-6 md:border-r md:border-slate-200
                 flex justify-center md:justify-end
               "
               aria-label="Progress Tahapan"
@@ -192,7 +192,7 @@ const TaskDetailPublic = () => {
               <div className="w-full max-w-[220px]">
                 <TaskStageProgress task={task} orientation="vertical" />
               </div>
-            </aside>
+            </aside> */}
 
             {/* Right column */}
             <div className="space-y-6">
