@@ -27,9 +27,7 @@ const ManageTasks = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  // FILTER:
-  // - filters: draft yang terikat ke form (berubah saat user mengetik)
-  // - appliedFilters: benar2 dipakai untuk fetch (berubah HANYA saat user klik Filter/Reset)
+  // FILTER: draft vs applied
   const [filters, setFilters] = useState({
     nopel: "",
     title: "",
@@ -54,8 +52,11 @@ const ManageTasks = () => {
   const [showApprovalModal, setShowApprovalModal] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
 
-  // loading
+  // loading daftar (list)
   const [loading, setLoading] = useState(false);
+
+  // loading khusus filter (untuk mengunci form filter & label tombol)
+  const [filtering, setFiltering] = useState(false);
 
   // exporting
   const [exporting, setExporting] = useState(false);
@@ -69,7 +70,7 @@ const ManageTasks = () => {
   // abort controller utk fetch
   const ctrlRef = useRef(null);
 
-  // fetcher stabil (depend hanya pada hal yang memengaruhi implementasi: limit)
+  // fetcher stabil
   const fetchTasks = useCallback(
     async (p, f) => {
       ctrlRef.current?.abort();
@@ -82,7 +83,6 @@ const ManageTasks = () => {
           params: { page: p, limit, ...f },
           signal: ctrl.signal,
         });
-
         const data = res?.data || {};
         setTasks(Array.isArray(data.tasks) ? data.tasks : []);
         setTotal(Number(data.total || 0));
@@ -99,7 +99,7 @@ const ManageTasks = () => {
     [limit]
   );
 
-  // ONLY refetch saat halaman atau *appliedFilters* berubah
+  // Refetch saat halaman / appliedFilters berubah
   useEffect(() => {
     fetchTasks(page, appliedFilters);
     return () => {
@@ -107,6 +107,11 @@ const ManageTasks = () => {
       exportCtrlRef.current?.abort();
     };
   }, [page, appliedFilters, fetchTasks]);
+
+  // Matikan flag filtering setelah fetch selesai
+  useEffect(() => {
+    if (!loading && filtering) setFiltering(false);
+  }, [loading, filtering]);
 
   // checkbox handlers
   const onToggleRow = useCallback((id) => {
@@ -130,7 +135,7 @@ const ManageTasks = () => {
       try {
         await axiosInstance.delete(API_PATHS.TASK.DELETE_TASK(id));
         toast.success("Berhasil menghapus permohonan");
-        // refresh dengan state saat ini
+        // refresh dengan state saat ini (ini memicu loading list, bukan filtering)
         fetchTasks(page, appliedFilters);
       } catch {
         toast.error("Gagal menghapus permohonan");
@@ -185,10 +190,7 @@ const ManageTasks = () => {
           res.headers?.["content-type"] ||
           res.headers?.get?.("content-type") ||
           "";
-        const ts = new Date()
-          .toISOString()
-          .replace(/[-:]/g, "")
-          .replace(/\..+/, "");
+        const ts = new Date().toISOString().replace(/[-:]/g, "").replace(/\..+/, "");
         filename = ct.includes("zip")
           ? `rekom-bulk-${ts}.zip`
           : `rekom-${ids.length > 1 ? "bulk-" : ""}${ts}.pdf`;
@@ -218,15 +220,16 @@ const ManageTasks = () => {
     }
   }, []);
 
-  // handler ketika user KLIK tombol Filter pada TaskFilter
+  // === APPLY / RESET FILTERS ===
   const applyFilters = useCallback(() => {
-    setPage(1);                 // reset ke halaman 1
-    setAppliedFilters(filters); // terapkan draft menjadi applied
-    // tidak panggil fetchTasks langsung; useEffect akan jalan
+    setFiltering(true);          // <- hanya lock form saat benar2 memfilter
+    setPage(1);                  // reset ke halaman 1
+    setAppliedFilters(filters);  // terapkan draft
+    // fetch dipicu oleh useEffect; flag 'filtering' akan dimatikan saat loading false
   }, [filters]);
 
-  // handler ketika user KLIK Reset pada TaskFilter
   const resetFilters = useCallback(() => {
+    setFiltering(true);
     const reset = {
       nopel: "",
       title: "",
@@ -235,10 +238,10 @@ const ManageTasks = () => {
       sortBy: "createdAt",
       order: "desc",
     };
-    setFilters(reset);          // reset draft di form
-    setAppliedFilters(reset);   // terapkan reset sebagai applied
+    setFilters(reset);           // reset draft di form
+    setAppliedFilters(reset);    // terapkan reset sebagai applied
     setPage(1);
-    // tidak panggil fetchTasks langsung; useEffect akan jalan
+    // fetch dipicu oleh useEffect
   }, []);
 
   return (
@@ -246,11 +249,11 @@ const ManageTasks = () => {
       <div className="mt-5">
         {/* Filter */}
         <TaskFilter
-          filters={filters}            // draft (terikat ke input)
-          setFilters={setFilters}      // untuk mengetik (tidak memicu fetch)
-          loading={loading}
-          onFilterSubmit={applyFilters} // HANYA saat tombol Filter diklik
-          onFilterReset={resetFilters}  // HANYA saat tombol Reset diklik
+          filters={filters}             // draft (terikat ke input)
+          setFilters={setFilters}       // perubahan input (tanpa fetch)
+          loading={filtering}           // << hanya true saat memfilter, bukan saat pagination
+          onFilterSubmit={applyFilters} // klik Filter
+          onFilterReset={resetFilters}  // klik Reset
         />
 
         {/* Tabel */}
@@ -284,7 +287,8 @@ const ManageTasks = () => {
                   disabled={loading}
                   onPageChange={(next) => {
                     const clamped = Math.max(1, Math.min(totalPages, next));
-                    if (clamped !== page) setPage(clamped); // ganti halaman TIDAK menyentuh filters
+                    if (clamped !== page) setPage(clamped);
+                    // Catatan: ini hanya memicu loading list, TIDAK mengubah filters/appliedFilters
                   }}
                 />
               </>
@@ -302,7 +306,7 @@ const ManageTasks = () => {
             taskId={selectedTaskId}
             onClose={() => setShowApprovalModal(false)}
             onSuccess={() => {
-              fetchTasks(page, appliedFilters); // refresh dengan state saat ini
+              fetchTasks(page, appliedFilters);
               setShowApprovalModal(false);
             }}
           />
