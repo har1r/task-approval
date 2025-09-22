@@ -296,7 +296,7 @@ const TaskDetailPublic = () => {
               <SectionCard title="Riwayat Persetujuan" bodyClassName="p-0">
                 <div className="overflow-x-auto">
                   <table className="min-w-full text-sm">
-                    <thead className="bg-slate-100 text-slate-800">
+                    <thead className="sticky bg-slate-100 text-slate-800">
                       <tr>
                         <th className="border-b px-3 py-2 text-left">
                           Tahapan
