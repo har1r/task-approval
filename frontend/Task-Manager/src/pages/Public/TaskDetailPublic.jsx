@@ -293,7 +293,58 @@ const TaskDetailPublic = () => {
                 </div>
               </SectionCard>
 
-              <SectionCard title="Riwayat Persetujuan" bodyClassName="p-0">
+                  <SectionCard title="Riwayat Persetujuan" bodyClassName="p-0">
+  <div className="overflow-x-auto">
+    <table className="min-w-full text-sm">
+      {/* Sama seperti TaskTable: sticky + top-0 */}
+      <thead className="sticky top-0 bg-slate-100 text-slate-800">
+        <tr>
+          {/* Samakan alignment: beberapa kolom center seperti di TaskTable */}
+          <th className="border-b px-3 py-2 text-center">Tahapan</th>
+          <th className="border-b px-3 py-2 text-center">Status</th>
+          <th className="border-b px-3 py-2 text-left">Waktu</th>
+          <th className="border-b px-3 py-2 text-left">Catatan</th>
+        </tr>
+      </thead>
+
+      {/* Zebra & hover sama dengan TaskTable */}
+      <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
+        {approvals.length > 0 ? (
+          approvals.map((a, idx) => (
+            <tr
+              key={idx}
+              className="transition-colors hover:bg-indigo-50/40"
+            >
+              <td className="border-b px-3 py-2 text-center">
+                {stageLabel[a.stage] || formatTitle(a.stage)}
+              </td>
+              <td className="border-b px-3 py-2 text-center">
+                <StatusChip status={a.status} />
+              </td>
+              <td className="border-b px-3 py-2">
+                {a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}
+              </td>
+              <td className="border-b px-3 py-2">
+                {a.note || "-"}
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td
+              colSpan={4}
+              className="py-4 text-center italic text-slate-500"
+            >
+              Belum ada data approval.
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</SectionCard>
+
+              {/* <SectionCard title="Riwayat Persetujuan" bodyClassName="p-0">
                 <div className="overflow-x-auto">
                   <table className="min-w-full text-sm">
                     <thead className="sticky bg-slate-100 text-slate-800">
@@ -344,7 +395,7 @@ const TaskDetailPublic = () => {
                     </tbody>
                   </table>
                 </div>
-              </SectionCard>
+              </SectionCard> */}
             </div>
           </div>
         </section>
