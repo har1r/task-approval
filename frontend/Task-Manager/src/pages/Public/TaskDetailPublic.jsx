@@ -290,83 +290,58 @@ const TaskDetailPublic = () => {
                 </div>
               </SectionCard>
 
-              <SectionCard title="Riwayat Persetujuan" bodyClassName="p-0">
-                <div className="overflow-x-auto">
-                  <table className="min-w-full text-sm table-fixed">
-                    {/* Atur lebar kolom supaya stabil */}
-                    <colgroup>
-                      <col className="w-[140px]" /> {/* Tahapan */}
-                      <col className="w-[140px]" /> {/* Status */}
-                      <col className="w-[170px]" /> {/* Waktu */}
-                      <col className="w-[480px]" />{" "}
-                      {/* Catatan (sisa bisa di-scroll) */}
-                    </colgroup>
+<SectionCard title="Riwayat Persetujuan" bodyClassName="p-0">
+  <div className="overflow-x-auto">
+    <table className="min-w-full text-sm table-fixed">
+      {/* colgroup TANPA whitespace/komentar */}
+      <colgroup><col className="w-[140px]"/><col className="w-[140px]"/><col className="w-[170px]"/><col className="w-[480px]"/></colgroup>
 
-                    <thead className="sticky top-0 bg-slate-100 text-slate-800">
-                      <tr>
-                        <th className="border-b px-3 py-2 text-left">
-                          Tahapan
-                        </th>
-                        <th className="border-b px-3 py-2 text-center">
-                          Status
-                        </th>
-                        <th className="border-b px-3 py-2 text-left whitespace-nowrap">
-                          Waktu
-                        </th>
-                        <th className="border-b px-3 py-2 text-left whitespace-nowrap">
-                          Catatan
-                        </th>
-                      </tr>
-                    </thead>
+      <thead className="sticky top-0 bg-slate-100 text-slate-800">
+        <tr>
+          <th className="border-b px-3 py-2 text-left">Tahapan</th>
+          <th className="border-b px-3 py-2 text-center">Status</th>
+          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Waktu</th>
+          <th className="border-b px-3 py-2 text-left whitespace-nowrap">Catatan</th>
+        </tr>
+      </thead>
 
-                    <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
-                      {approvals.length > 0 ? (
-                        approvals.map((a, idx) => (
-                          <tr
-                            key={idx}
-                            className="transition-colors hover:bg-indigo-50/40"
-                          >
-                            <td className="border-b px-3 py-2">
-                              {stageLabel[a.stage] || formatTitle(a.stage)}
-                            </td>
+      <tbody className="[&>tr:nth-child(even)]:bg-slate-50">
+        {approvals.length > 0 ? (
+          approvals.map((a, idx) => (
+            <tr key={idx} className="transition-colors hover:bg-indigo-50/40">
+              <td className="border-b px-3 py-2">
+                {stageLabel[a.stage] || formatTitle(a.stage)}
+              </td>
 
-                            <td className="border-b px-3 py-2 text-center">
-                              <StatusChip status={a.status} />
-                            </td>
+              <td className="border-b px-3 py-2 text-center">
+                <StatusChip status={a.status} />
+              </td>
 
-                            {/* TIDAK menekuk */}
-                            <td className="border-b px-3 py-2 whitespace-nowrap">
-                              {a.approvedAt
-                                ? formatDateTimeId(a.approvedAt)
-                                : "-"}
-                            </td>
+              <td className="border-b px-3 py-2 whitespace-nowrap">
+                {a.approvedAt ? formatDateTimeId(a.approvedAt) : "-"}
+              </td>
 
-                            {/* Pilihan A: benar-benar tidak menekuk (akan muncul horizontal scroll jika panjang) */}
-                            {/* <td className="border-b px-3 py-2 whitespace-nowrap">
-                              {a.note || "-"}
-                            </td> */}
-
-              {/* Pilihan B: satu baris dengan elipsis (lebih rapih, tidak memanjang tak terkontrol) */}
-              <td className="border-b px-3 py-2 overflow-hidden text-ellipsis whitespace-nowrap">
+              {/* Elipsis + tooltip full text */}
+              <td
+                className="border-b px-3 py-2 overflow-hidden text-ellipsis whitespace-nowrap"
+                title={a.note || "-"}
+              >
                 {a.note || "-"}
               </td>
-          
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td
-                            colSpan={4}
-                            className="py-4 text-center italic text-slate-500"
-                          >
-                            Belum ada data approval.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </SectionCard>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={4} className="py-4 text-center italic text-slate-500">
+              Belum ada data approval.
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</SectionCard>
+
             </div>
           </div>
         </section>
