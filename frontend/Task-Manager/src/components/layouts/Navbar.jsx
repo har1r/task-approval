@@ -35,15 +35,19 @@ const Navbar = () => {
         {/* Brand lockup: monogram + PETRA */}
         <div className="group inline-flex items-center gap-3">
           {/* logo */}
- <div className="inline-grid size-10 rounded-full overflow-hidden bg-indigo-600">
-  <img
-    src="/favicon-32x32.png"
-    alt="Logo SIPETRA"
-    className="size-full block object-cover"
-  />
-</div>
+          <div className="relative inline-grid size-10 place-items-center">
+            {/* bg hanya pada lingkaran dalam */}
+            <span className="pointer-events-none absolute inset-0 grid place-items-center">
+              {/* atur persentase agar pas dgn lingkaran dalam logo (coba 68–74%) */}
+              <span className="size-[72%] rounded-full bg-indigo-600"></span>
+            </span>
 
-
+            <img
+              src="/favicon-32x32.png"
+              alt="Logo SIPETRA"
+              className="size-full block object-contain select-none"
+            />
+          </div>
 
           {/* Wordmark PETRA */}
           <div className="leading-tight">
