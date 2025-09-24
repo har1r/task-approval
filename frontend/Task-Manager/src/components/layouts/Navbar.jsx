@@ -36,10 +36,9 @@ const Navbar = () => {
         <div className="group inline-flex items-center gap-3">
           {/* Monogram P */}
           <div className="relative group">
-            <div className="absolute inset-0 rounded-xl bg-indigo-400/20 blur-md opacity-60 transition-opacity group-hover:opacity-80" />
-            <div className="relative grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-500 text-white shadow-sm ring-1 ring-white/10">
+            <div className="relative grid h-9 w-9 place-items-center rounded-xl ring-1 ring-white/10 shadow-sm bg-transparent">
               <img
-                src="/favicon-32x32.png" // simpan di public/
+                src="/favicon-32x32.png"
                 alt="Logo SIPETRA"
                 className="h-5 w-5 object-contain pointer-events-none select-none"
                 width={20}
