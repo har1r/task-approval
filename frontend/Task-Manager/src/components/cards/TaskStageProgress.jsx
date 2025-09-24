@@ -209,7 +209,7 @@ export default function TaskStageProgress({
             : isCompleted
             ? "text-emerald-600"
             : isCurrent
-            ? "text-yellow-600"
+            ? "text-yellow-300"
             : "text-slate-400";
 
           return (

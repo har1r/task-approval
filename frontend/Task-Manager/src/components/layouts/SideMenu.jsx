@@ -6,7 +6,6 @@ import { ADMIN_MENU, USER_MENU } from "../../utils/data";
 // Daftar path yang dibatasi + siapa saja yang boleh mengaksesnya
 const CAN_ACCESS_PATH_BY_ROLE = {
   "/task/create": new Set(["penginput", "admin"]),
-  // Tambahkan aturan lain di sini bila perlu
 };
 
 const SideMenu = ({ isMobile = false, onClose }) => {
@@ -181,80 +180,3 @@ const SideMenu = ({ isMobile = false, onClose }) => {
 };
 
 export default React.memo(SideMenu);
-
-// import React, { useContext, useMemo } from "react";
-// import { useNavigate, useLocation } from "react-router-dom";
-// import { UserContext } from "../../context/userContext";
-// import { SIDE_MENU_DATA, SIDE_MENU_USER_DATA } from "../../utils/data";
-
-// const SideMenu = ({ isMobile = false, onClose }) => {
-//   const { user, clearUser } = useContext(UserContext);
-//   const navigate = useNavigate();
-//   const location = useLocation();
-
-//   // Pilih menu sesuai role
-//   const sideMenuData = useMemo(() => {
-//     if (!user) return [];
-//     return user.role === "admin" ? SIDE_MENU_DATA : SIDE_MENU_USER_DATA;
-//   }, [user]);
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("token");
-//     clearUser();
-//     navigate("/login", { replace: true });
-//     if (onClose) onClose();
-//   };
-
-//   const handleClick = (path) => {
-//     if (path === "logout") return handleLogout();
-//     navigate(path);
-//     if (onClose) onClose();
-//   };
-
-//   if (!user) return null;
-
-//   return (
-//     <aside
-//       className={`bg-white ${
-//         isMobile ? "h-full" : "h-[calc(100vh-64px)] sticky top-[64px]"
-//       } overflow-auto`}
-//     >
-//       {/* User Info */}
-//       <div className="flex flex-col items-center justify-center p-5 mb-7 border-b border-gray-200/50">
-//         <img
-//           src={user.profileImageUrl || ""}
-//           alt={`${user.name}'s profile`}
-//           className="w-20 h-20 bg-gray-300 rounded-full object-cover"
-//         />
-//         <span className="text-[10px] font-medium text-white bg-primary px-3 py-0.5 rounded mt-1">
-//           {user.role === "admin" ? "Admin" : user.role}
-//         </span>
-//         <h5 className="mt-3 text-gray-950 font-medium">{user.name}</h5>
-//         <p className="text-[12px] text-gray-500">{user.email}</p>
-//       </div>
-
-//       {/* Menu Items */}
-//       <div className="flex flex-col">
-//         {sideMenuData.map((item) => {
-//           const isActive = location.pathname === item.path;
-//           return (
-//             <button
-//               key={item.label}
-//               onClick={() => handleClick(item.path)}
-//               className={`flex items-center gap-3 w-full px-6 py-3 text-left text-[15px] cursor-pointer transition-colors duration-200 ${
-//                 isActive
-//                   ? "text-primary bg-blue-50 border-r-3 border-primary"
-//                   : "text-gray-700 hover:bg-gray-100"
-//               }`}
-//             >
-//               {item.icon && <item.icon className="text-xl" />}
-//               {item.label}
-//             </button>
-//           );
-//         })}
-//       </div>
-//     </aside>
-//   );
-// };
-
-// export default SideMenu;
