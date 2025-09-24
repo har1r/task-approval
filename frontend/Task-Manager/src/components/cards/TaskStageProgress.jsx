@@ -269,7 +269,7 @@ export default function TaskStageProgress({
                   "z-10 grid h-9 w-9 place-items-center rounded-full border-4 bg-white",
                   dotBorder,
                   isCompleted ? "shadow-emerald-200 shadow-sm" : "",
-                  isCurrent ? "ring-4 ring-yellow-200/60" : "",
+                  isCurrent ? "ring-4 ring-yellow-300" : "",
                 ].join(" ")}
                 title={toLabel(stage)}
                 aria-current={isCurrent ? "step" : undefined}
@@ -293,7 +293,7 @@ export default function TaskStageProgress({
                 {isCurrent && !isRejected && (
                   <>
                     <span
-                      className="absolute -right-1 -top-1 h-4 w-4 rounded-full bg-yellow-300/70 animate-ping"
+                      className="absolute -right-1 -top-1 h-4 w-4 rounded-full bg-yellow-300 animate-ping"
                       aria-hidden
                     />
                     <span
@@ -330,7 +330,7 @@ export default function TaskStageProgress({
                       : isCompleted
                       ? "text-emerald-700"
                       : isCurrent
-                      ? "text-yellow-600"
+                      ? "text-yellow-300"
                       : "text-slate-700",
                   ].join(" ")}
                 >
