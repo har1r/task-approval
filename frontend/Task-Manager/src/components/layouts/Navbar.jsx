@@ -36,7 +36,9 @@ const Navbar = () => {
           <div className="relative">
             <div className="absolute inset-0 rounded-xl bg-indigo-400/20 blur-md opacity-60 transition-opacity group-hover:opacity-80" />
             <div className="relative grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-500 text-white shadow-sm ring-1 ring-white/10">
-              <span className="text-[15px] font-extrabold tracking-wider">P</span>
+              <span className="text-[15px] font-extrabold tracking-wider">
+                <img src="/favicon.ico" alt="logo" />
+              </span>
             </div>
           </div>
 
