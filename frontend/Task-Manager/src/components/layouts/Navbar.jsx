@@ -34,17 +34,15 @@ const Navbar = () => {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:px-8">
         {/* Brand lockup: monogram + PETRA */}
         <div className="group inline-flex items-center gap-3">
-          {/* Monogram P */}
+          {/* logo */}
           <div className="relative group">
-            <div className="relative grid h-9 w-9 place-items-center rounded-xl ring-1 ring-white/10 shadow-sm bg-transparent">
-              <img
-                src="/favicon-32x32.png"
-                alt="Logo SIPETRA"
-                className="h-5 w-5 object-contain pointer-events-none select-none"
-                width={20}
-                height={20}
-              />
-            </div>
+            <img
+              src="/favicon-32x32.png"
+              alt="Logo SIPETRA"
+              className="h-9 w-9 object-contain pointer-events-none select-none"
+              width={36}
+              height={36}
+            />
           </div>
 
           {/* Wordmark PETRA */}
