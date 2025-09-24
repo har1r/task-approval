@@ -39,7 +39,7 @@ const Navbar = () => {
             {/* bg hanya pada lingkaran dalam */}
             <span className="pointer-events-none absolute inset-0 grid place-items-center">
               {/* atur persentase agar pas dgn lingkaran dalam logo (coba 68–74%) */}
-              <span className="rounded-full bg-indigo-600" style={{ width: '72%', height: '70%' }} />
+              <span className="size-[72%] rounded-full bg-indigo-600"></span>
             </span>
 
             <img
