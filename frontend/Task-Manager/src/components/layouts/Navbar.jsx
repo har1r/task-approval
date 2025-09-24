@@ -5,12 +5,14 @@ import SideMenu from "./SideMenu";
 const Navbar = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
 
-  const toggleMenu = useCallback(() => setOpenMobileMenu(v => !v), []);
+  const toggleMenu = useCallback(() => setOpenMobileMenu((v) => !v), []);
   const closeMenu = useCallback(() => setOpenMobileMenu(false), []);
 
   // Lock scroll ketika menu mobile dibuka + tutup dengan ESC
   useEffect(() => {
-    const onKey = (e) => { if (e.key === "Escape") closeMenu(); };
+    const onKey = (e) => {
+      if (e.key === "Escape") closeMenu();
+    };
     window.addEventListener("keydown", onKey);
     if (openMobileMenu) {
       const prev = document.documentElement.style.overflow;
@@ -33,12 +35,16 @@ const Navbar = () => {
         {/* Brand lockup: monogram + PETRA */}
         <div className="group inline-flex items-center gap-3">
           {/* Monogram P */}
-          <div className="relative">
+          <div className="relative group">
             <div className="absolute inset-0 rounded-xl bg-indigo-400/20 blur-md opacity-60 transition-opacity group-hover:opacity-80" />
             <div className="relative grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-500 text-white shadow-sm ring-1 ring-white/10">
-              <span className="text-[15px] font-extrabold tracking-wider">
-                <img src="/favicon.ico" alt="logo" />
-              </span>
+              <img
+                src="/favicon-32x32.png" // simpan di public/
+                alt="Logo SIPETRA"
+                className="h-5 w-5 object-contain pointer-events-none select-none"
+                width={20}
+                height={20}
+              />
             </div>
           </div>
 
@@ -62,13 +68,21 @@ const Navbar = () => {
           aria-controls="mobile-sidebar"
           aria-expanded={openMobileMenu}
         >
-          {openMobileMenu ? <HiOutlineX className="h-6 w-6" /> : <HiOutlineMenu className="h-6 w-6" />}
+          {openMobileMenu ? (
+            <HiOutlineX className="h-6 w-6" />
+          ) : (
+            <HiOutlineMenu className="h-6 w-6" />
+          )}
         </button>
       </div>
 
       {/* Mobile side menu (overlay) */}
       {openMobileMenu && (
-        <div className="fixed inset-0 z-50 flex lg:hidden" role="dialog" aria-modal="true">
+        <div
+          className="fixed inset-0 z-50 flex lg:hidden"
+          role="dialog"
+          aria-modal="true"
+        >
           {/* backdrop */}
           <div
             className="flex-1 bg-black/40"
