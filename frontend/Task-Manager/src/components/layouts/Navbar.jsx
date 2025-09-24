@@ -35,10 +35,14 @@ const Navbar = () => {
         {/* Brand lockup: monogram + PETRA */}
         <div className="group inline-flex items-center gap-3">
           {/* logo */}
-         <div
-  className="inline-block size-10 rounded-full bg-center bg-cover"
-  style={{ backgroundImage: "url(/favicon-32x32.png)" }}
-/>
+ <div className="inline-grid size-10 rounded-full overflow-hidden">
+  <img
+    src="/favicon-32x32.png"
+    alt="Logo SIPETRA"
+    className="size-full block object-cover"
+  />
+</div>
+
 
 
           {/* Wordmark PETRA */}
